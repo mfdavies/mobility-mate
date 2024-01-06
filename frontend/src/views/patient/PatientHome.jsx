@@ -1,17 +1,20 @@
-import Navbar from './components/Navbar'
+import Navbar from './Navbar';
+import Ai3D from './Ai3D';
 
 const PatientHome = () => {
-    return (
-        <div className="min-h-screen bg-blue-100">
-            <Navbar />
-            <main className="p-6">
-                <h1 className="text-2xl font-semibold mb-4">Welcome to Your Home Page</h1>
-                <p className="text-gray-700">
-                    Here you can find your daily routines, track your progress, and manage your health journey.
-                </p>
-            </main>
+  return (
+    <div className="h-screen">
+      <Navbar />
+      <main className="h-full p-6 flex">
+        <div className="h-full w-1/2 bg-baby-blue">
+          <h1 className="text-4xl font-medium">Welcome Back</h1>
+          <div className="text-3xl">John</div>
+          <Ai3D />
         </div>
-    );
+        <div className="h-full w-1/2 bg-light-teal"></div>
+      </main>
+    </div>
+  );
 };
 
 export default PatientHome;
