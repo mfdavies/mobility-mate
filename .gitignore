@@ -4,3 +4,4 @@
 __pycache__/
 service.json
 settings.py
+.vscode
