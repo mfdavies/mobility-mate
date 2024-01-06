@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       # - run: npm install vite
-      - run: npm ci && npm run build --prefix frontend
+      - run: npm ci --prefix frontend && npm run build --prefix frontend
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
