@@ -1,3 +1,6 @@
 /venv
 *.env
 *.pyc
+__pycache__/
+service.json
+settings.py
