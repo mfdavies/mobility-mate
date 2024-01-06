@@ -6,17 +6,31 @@ from firebase_admin import firestore
 conversation_blueprint = Blueprint('conversation', __name__)
 db = firestore.client()
 users_ref = db.collection('practitioners')
+
+@conversation_blueprint.route('/start', methods=['POST'])
+def start():
+    practitioner = request.args.get('practitioner')
+    patient = request.args.get('patient')
+    user_doc_ref = users_ref.document(practitioner).collection("patients").document(patient)
+    
+
+    conversation = Conversation(user_doc_ref=user_doc_ref)
+    greeting = conversation.generate_greeting()
+    session['conversation_id'] = conversation.get_conversation_id()
+
+
+    return jsonify({'reply': greeting}), 200
+
 @conversation_blueprint.route('/send_message', methods=['POST'])
 def send_message():
     practitioner = request.args.get('practitioner')
     patient = request.args.get('patient')
     user_doc_ref = users_ref.document(practitioner).collection("patients").document(patient)
     if 'conversation_id' not in session:
-        conversation = Conversation(user_doc_ref=user_doc_ref)
-        session['conversation_id'] = conversation.get_conversation_id()
-    else:
-        conversation_id = session['conversation_id']
-        conversation = Conversation(user_doc_ref=user_doc_ref, conversaton_id=conversation_id)
+        return jsonify({'reply': "Please start a conversation first"}), 400
+
+    conversation_id = session['conversation_id']
+    conversation = Conversation(user_doc_ref=user_doc_ref, conversaton_id=conversation_id)
     # TODO: transcribe if it is audio
     message = request.json.get('message')
     
