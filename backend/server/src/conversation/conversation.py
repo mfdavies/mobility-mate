@@ -58,3 +58,19 @@ class Conversation:
         self.prompt +=". When necessary, please refer the patient to contact their physiotherapist who's name is: " + user_doc_ref.parent.parent.get().get("name") + "."
 
         
+    def end_conversation(self):
+        print(self.history)
+        self.history.append({"role": "system", "content": "Summarize the entire conversation between the user and the assistant for a physiotherapist focus on the answers the user game. Give me only the summary, no other text."})
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages= self.history,
+            temperature=0.5
+        )
+        self.summary = response.choices[0].message.content.strip()
+        
+        # Add the summary to the conversation collection
+        self.conversation_ref.update({"summary": self.summary})
+        
+        return self.summary
+    
+    
