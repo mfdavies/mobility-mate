@@ -2,22 +2,26 @@ import whisper
 import openai
 import datetime
 from settings import OPENAI_API_KEY
+from openai import OpenAI
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 model = whisper.load_model("base")
-openai.api_key = OPENAI_API_KEY
+
 prompt = "You are a ..."
 
 class Conversation:
-    def __init__(self, user_doc_ref = None, conversaton_id = None):
+    def __init__(self, user_doc_ref, conversaton_id = None):
         if conversaton_id:
-            self.conversation_ref = user_doc_ref.conversations.document(conversaton_id)
+            self.conversation_ref = user_doc_ref.collection('conversations').document(conversaton_id)
             self.history = self.conversation_ref.get().get("history")
         else:
             self.history = [{"role": "system", "content": prompt}]
-            self.conversation_ref = user_doc_ref.conversations.add({
+            self.conversation_ref = user_doc_ref.collection('conversations').add({
                 "date": datetime.datetime.now(),
                 "history": self.history})
-        return self.conversation_ref.id
+    
+    def get_conversation_id(self):
+        return self.conversation_ref[1].id
 
 
     @staticmethod
@@ -27,16 +31,16 @@ class Conversation:
     def generate_reply(self, text):
         self.history.append({"role": "user", "content": text})
         self.conversation_ref.update({"history": self.history})
-        response = openai.Completion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages = self.history,
+            messages= self.history,
             temperature=0.5
         )
 
-        self.history.append({"role": "assistant", "content": response.choices[0].text})
+        self.history.append({"role": "assistant", "content": response.choices[0].message.content.strip()})
         self.conversation_ref.update({"history": self.history})
 
-        return response.choices[0].message["content"].strip()
+        return response.choices[0].message.content.strip()
     
 
 
