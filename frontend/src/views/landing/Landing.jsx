@@ -18,7 +18,7 @@ const Landing = () => {
           </header>
           
           <main>
-            <h1 className="text-4xl font-bold mb-6">Enhancing Your Mobility Journey</h1>
+            <h1 className="text-4xl font-bold mb-6 text-gray-800">Enhancing Your Mobility Journey</h1>
             <p className="text-gray-700 mb-8">
               Join us in revolutionizing the way practitioners and patients interact.
               Experience seamless management of exercise routines, patient records, and progress tracking.
@@ -29,7 +29,7 @@ const Landing = () => {
             </div>
           </main>
           
-          <footer className="text-center py-4 mt-12">
+          <footer className="text-center py-4 mt-12 text-gray-800">
             <p>© {new Date().getFullYear()} MobilityMate. All rights reserved.</p>
           </footer>
         </div>
