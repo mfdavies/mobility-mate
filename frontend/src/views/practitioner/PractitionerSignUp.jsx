@@ -20,8 +20,20 @@ const PractitionerSignUp = () => {
 
             <div className="space-y-4 mb-6">
               <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <input type="name" id="name" name="name" placeholder="John Doe"
+                  className="mt-1 block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500" />
+              </div>
+
+              <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" id="email" name="email" placeholder="name@example.com"
+                  className="mt-1 block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500" />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password (at least 8 characters)"
                   className="mt-1 block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500" />
               </div>
 
