@@ -16,12 +16,12 @@ class Conversation:
             self.history = self.conversation_ref.get().get("history")
         else:
             self.history = [{"role": "system", "content": prompt}]
-            self.conversation_ref = user_doc_ref.collection('conversations').add({
+            _, self.conversation_ref = user_doc_ref.collection('conversations').add({
                 "date": datetime.datetime.now(),
                 "history": self.history})
     
     def get_conversation_id(self):
-        return self.conversation_ref[1].id
+        return self.conversation_ref.id
 
 
     @staticmethod

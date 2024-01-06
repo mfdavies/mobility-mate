@@ -2,3 +2,4 @@ service.json
 .venv
 backend/settings.py
 .vscode
+__pycache__
