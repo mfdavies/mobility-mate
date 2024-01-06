@@ -5,3 +5,7 @@ __pycache__/
 service.json
 settings.py
 .vscode
+.venv
+backend/settings.py
+.vscode
+__pycache__
