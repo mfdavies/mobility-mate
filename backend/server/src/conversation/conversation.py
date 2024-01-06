@@ -51,7 +51,7 @@ class Conversation:
     
     def end_conversation(self):
         print(self.history)
-        self.history.append({"role": "user", "content": "Summarize our entire conversation, Ignoring this request for a summary."})
+        self.history.append({"role": "system", "content": "Summarize the entire conversation between the user and the assistant for a physiotherapist focus on the answers the user game. Give me only the summary, no other text."})
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages= self.history,
@@ -60,7 +60,7 @@ class Conversation:
         self.summary = response.choices[0].message.content.strip()
         
         # Add the summary to the conversation collection
-        self.conversation_ref.set({"summary": self.summary})
+        self.conversation_ref.update({"summary": self.summary})
         
         return self.summary
     
