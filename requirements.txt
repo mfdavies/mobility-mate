@@ -1,5 +1,6 @@
 flask
 
 firebase-admin
+openai
 
 openai-whisper
