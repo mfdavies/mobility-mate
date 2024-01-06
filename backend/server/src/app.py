@@ -6,16 +6,19 @@ from constants import *
 import time
 import firebase_admin
 from firebase_admin import credentials
+from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
-cred = credentials.Certificate('service.json')
+cred = credentials.Certificate("service.json")
 firebase_admin.initialize_app(cred)
 
-from conversation.views import conversation_blueprint  
+from conversation.views import conversation_blueprint
+
 # Register the conversation Blueprint
-app.register_blueprint(conversation_blueprint, url_prefix='/conversation')
+app.register_blueprint(conversation_blueprint, url_prefix="/conversation")
+CORS(app)
 
 # Load Flask-Mail config from .env
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
