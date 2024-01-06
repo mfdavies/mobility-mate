@@ -16,23 +16,7 @@ def signout():
     session['practitioner'] = None
     return jsonify({'success': True}), 200
 
-@practitioner_blueprint.route('/add_patient', methods=['POST'])
-def add_patient():
-    pass
-    return jsonify({'success': True}), 200
-
-@practitioner_blueprint.route('/view_patient', methods=['POST'])
-def view_patient():
-    data = None
-    return jsonify({'Patient': data}), 200
-
-@practitioner_blueprint.route('/edit_patient', methods=['POST'])
-def view_patient():
-    data = None
-    return jsonify({'Patient': data}), 200
-
-@practitioner_blueprint.route('/get_patients', methods=['GET'])
-def get_patients():
-    data = None
-    return jsonify({'Patient': data}), 200
-
+def get_practitioner_id():
+    practitioner = session['practitioner']
+    return practitioner
+        
