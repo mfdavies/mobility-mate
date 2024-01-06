@@ -38,8 +38,8 @@ def send_message():
     reply = conversation.generate_reply(message)
     return jsonify({'reply': reply}), 200
 
-@conversation_blueprint.route('/end_conversation', methods=['POST'])
-def end_conversation():
+@conversation_blueprint.route('/end', methods=['POST'])
+def end():
     if 'conversation_id' not in session:
         return jsonify({'reply': 'No Conversation to end'}), 200
     conversation_id = session.pop('conversation_id')
