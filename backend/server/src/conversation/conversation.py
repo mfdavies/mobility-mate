@@ -20,6 +20,7 @@ class Conversation:
     def get_conversation_id(self):
         return self.conversation_ref.id
 
+
     @staticmethod
     def transcribe(audio_file):
         return model.transcribe(audio_file, fp16=False).get("text")
