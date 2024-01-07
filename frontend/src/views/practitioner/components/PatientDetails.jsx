@@ -124,7 +124,7 @@ const PatientDetails = ({ patientID }) => {
           <div className="bg-gray-50 rounded-lg mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-5">
               {patientExercises.length === 0 ? (
-                <p className="text-gray-600">No exercises in the routine.</p>
+                <p className="text-gray-600">No exercises assigned in routine.</p>
               ) : (
                 patientExercises.map(exerciseId => {
                   const exercise = exercises.find(e => e.id === exerciseId);
