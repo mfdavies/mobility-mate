@@ -15,11 +15,14 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       recognition.continuous = true;
       recognition.interimResults = true;
 
+      let accumulatedTranscript = '';
+
       recognition.onresult = (event) => {
-        // Only use this for real-time display, not for sending to the server
-        const latestResult = event.results[event.resultIndex];
-        const latestTranscript = latestResult[0].transcript.trim();
-        updateUserMessage(latestTranscript);
+        accumulatedTranscript = '';
+        for (let i = 0; i < event.results.length; i++) {
+          accumulatedTranscript += event.results[i][0].transcript.trim() + ' ';
+        }
+        updateUserMessage(accumulatedTranscript);
       };
 
       setSpeechRecognition(recognition);
@@ -30,13 +33,6 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
 
   const startRecording = async () => {
     const queryParams = new URLSearchParams({ patient: 'demo', practitioner: 'demo' });
-    // if (!isConvoStarted) {
-    //   // Start a new conversation
-    //   const gptResponse = await axios.get(`http://localhost:8080/conversation/start?${queryParams.toString()}`);
-    //   setIsConvoStarted(true);
-    //   console.log(gptResponse.data.reply); // TODO: speak/display the AI response here
-    //   updateGptResponse(gptResponse.data.reply);
-    // }
 
     // Start recording audio
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -50,21 +46,17 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
     };
 
     recorder.onstop = async () => {
+      updateGptResponse(null);
       // Process and send the audio data to the server for transcription
       const audioBlob = new Blob(chunks, { type: 'audio/wav' });
       const formData = new FormData();
       formData.append('audioFile', audioBlob, 'recorded_audio.wav');
 
-      const userMessage = await axios.post(`http://localhost:8080/conversation/transcribe`, formData);
-      updateUserMessage(userMessage.data.user_msg); // Update with the final, reliable transcription
-      console.log(userMessage);
-
-      // Fetch GPT response
-      const gptResponse = await axios.post(
+      const response = await axios.post(
         `http://localhost:8080/conversation/send_message?${queryParams.toString()}`,
-        { "message": userMessage.data.user_msg }
+        formData
       );
-      updateGptResponse(gptResponse.data.reply);
+      updateGptResponse(response.data.reply);
     };
 
     recorder.start();
@@ -101,14 +93,9 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
 
   return (
     <div>
-      {isRecording ? (
-        <p>Recording...</p>
-      ) : (
-        <p>Click Start Recording to begin recording.</p>
-      )}
       <button
         onClick={isRecording ? triggerEnd : triggerStart}
-        className="absolute bottom-8 left-1/2 w-32 h-32 transform -translate-x-1/2">
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
             {/* <div className='w-28 h-28 bg-baby-blue rounded-full'></div> */}
             <div className={`${isRecording ? 'animate-ping' : ''} w-28 h-28 bg-baby-blue rounded-full`}></div>
 
