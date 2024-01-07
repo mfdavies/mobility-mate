@@ -6,7 +6,7 @@ import React, { Suspense } from "react";
 
 const Spline = React.lazy(() => import("@splinetool/react-spline"));
 
-const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
+const VoiceAI = ({patientID, practitionerID, updateUserMessage, updateGptResponse }) => {
   const sphere = useRef();
   const [isRecording, setIsRecording] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
@@ -39,8 +39,8 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
 
   const startRecording = async () => {
     const queryParams = new URLSearchParams({
-      patient: "demo",
-      practitioner: "demo",
+      patient: patientID,
+      practitioner: practitionerID,
     });
 
     // Start recording audio

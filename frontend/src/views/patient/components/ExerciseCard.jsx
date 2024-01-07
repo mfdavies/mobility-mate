@@ -1,51 +1,58 @@
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-const ExerciseCard = ({ title, description, imageUrl, instructions, onClick, isExpanded }) => {
-  const [startAnimation, setStartAnimation] = useState(false);
+const ExerciseCard = ({ name, description, steps, image }) => {
+  // State to toggle view
+  const [detailedView, setDetailedView] = useState(false);
 
-  useEffect(() => {
-    if (isExpanded) {
-      
-      const timeoutId = window.setTimeout(() => {
-        setStartAnimation(true);
-      }, 100); // Delay in milliseconds
-      
-      return () => window.clearTimeout(timeoutId);
-    }
-  }, [isExpanded]);
-
-  const animationClass = startAnimation ? 'start-animation' : '';
+  // Event handler to toggle view
+  const handleViewClick = () => {
+    setDetailedView(!detailedView);
+  };
+  const stepsList = steps.split('\n');
 
   return (
-    <div className={`card ${isExpanded ? 'expanded' : ''} ${animationClass}`} onClick={onClick}>
-      <div className="bg-gray-400">
-        <figure>
-          <img src={imageUrl} alt={title} />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{title}</h2>
-          <p>{description}</p>
-          {isExpanded && (
-            <div>
-              {instructions.map((step, index) => (
-                <p key={index}>{step}</p>
+    <div className="card w-96 bg-base-100 border-[1px] shadow-none">
+      <figure className="">
+        <img
+          src={image}
+          alt="Exercise Image"
+          className="rounded-xl object-contain w-full h-auto"
+        />
+      </figure>
+      <div className="card-body">
+        {detailedView ? (
+          <div>
+            <h2 className="card-title">{name} steps</h2>
+
+            <ul className="list-disc list-inside ">
+              {stepsList.map((item, index) => (
+                <li key={index} className="text-dark-teal">
+                  {item}
+                </li>
               ))}
+            </ul>
+
+            <div className="card-actions justify-end">
+              <button className="btn " onClick={handleViewClick}>
+                Less
+              </button>
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          // Default view
+          <div>
+            <h2 className="card-title">{name}</h2>
+            <p>{description}</p>
+            <div className="card-actions justify-end">
+              <button className="btn" onClick={handleViewClick}>
+                More
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-};
-
-ExerciseCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  instructions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onClick: PropTypes.func.isRequired,
-  isExpanded: PropTypes.bool.isRequired,
 };
 
 export default ExerciseCard;
