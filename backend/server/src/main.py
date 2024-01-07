@@ -12,6 +12,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
+
 def create_service_dict():
     variables_keys = {
         "type": os.getenv("TYPE"),
@@ -24,9 +25,10 @@ def create_service_dict():
         "token_uri": os.getenv("TOKEN_URI"),
         "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
         "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
-        "universe_domain": os.getenv("UNIVERSE_DOMAIN")
+        "universe_domain": os.getenv("UNIVERSE_DOMAIN"),
     }
     return variables_keys
+
 
 cred = credentials.Certificate(create_service_dict())
 firebase_admin.initialize_app(cred)
@@ -45,6 +47,7 @@ app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 app.config["MAIL_DEFAULT_SENDER"] = os.getenv("MAIL_DEFAULT_SENDER")
 mail = Mail(app)
+
 
 @app.route("/patient/send-link", methods=["POST"])
 def send_link():
@@ -65,7 +68,7 @@ def send_link():
         return jsonify({"success": True, "message": "Email sent successfully"})
 
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)})
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 def format_server_time():
@@ -79,5 +82,5 @@ def index():
     return render_template("index.html", context=context)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=os.getenv("PORT", default=5000))

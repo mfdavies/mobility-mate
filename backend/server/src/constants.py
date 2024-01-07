@@ -6,12 +6,10 @@ Welcome to MobilityMate - your dedicated partner in staying active and healthy! 
 
 To access your personalized exercise account and stay up to date with exercises recommended by your practitioner, simply click on the link below:
 
-🔗 www.example.com/patient/{uid}
+🔗 https://mobilitymate-a8b53.web.app/patient/{uid}
 
 Your well-being is our priority! If you have any questions or need support, our team is here to assist you every step of the way.
 
 Stay active, stay healthy!
-
-Best regards,
 The MobilityMate Team 🏋️‍♂️
 """
