@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import apiUrl from "../../../config";
 
 const RecordButton = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -14,8 +15,10 @@ const RecordButton = () => {
     queryParams.set("practitioner", "demo");
 
     if (!isConvoStarted) {
+      console.log("starting conversation")
+      console.log(apiUrl)
       const response = await axios.get(
-        `http://localhost:8080/conversation/start?${queryParams.toString()}`
+        `${apiUrl}/conversation/start?${queryParams.toString()}`
       );
       setIsConvoStarted(true);
       // TODO: speak/display the AI response here
@@ -42,7 +45,7 @@ const RecordButton = () => {
 
       // Send the FormData to the server using a fetch or XMLHttpRequest
       const response = await axios.post(
-        `http://localhost:8080/conversation/send_message?${queryParams.toString()}`,
+        `${apiUrl}/conversation/send_message?${queryParams.toString()}`,
         formData
       );
 
