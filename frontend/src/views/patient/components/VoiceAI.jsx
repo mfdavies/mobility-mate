@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import apiUrl from '../../../config';
 import gsap from 'gsap';
 import React, { Suspense } from 'react';
 
@@ -61,7 +62,7 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       formData.append('audioFile', audioBlob, 'recorded_audio.wav');
 
       const response = await axios.post(
-        `http://localhost:8080/conversation/send_message?${queryParams.toString()}`,
+        `${apiUrl}/conversation/send_message?${queryParams.toString()}`,
         formData
       );
       updateGptResponse(response.data.reply);
