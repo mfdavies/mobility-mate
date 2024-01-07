@@ -104,3 +104,21 @@
     max-width: 100%;
   }
 }
+
+
+.outer-frame {
+  border: 20px solid white; /* Adjust the thickness here */
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  border-radius: 20px; /* Rounded corners for outer border */
+  overflow: hidden; /* Ensures inner content respects border radius */
+}
+
+.inner-frame {
+  height: 80%;
+  width: 100%;
+  border: 2px solid #E1E5F2; /* Inner border */
+  border-radius: 15px; /* Adjust for inner rounded corners */
+  box-sizing: border-box; /* Ensures the border is included in the width/height */
+}
