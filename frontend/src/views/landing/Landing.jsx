@@ -1,10 +1,13 @@
+import landingImage from "../../assets/landingDoodle.jpeg";
+import logo from "../../assets/mobilityMate-NoBg-lg.png";
+
 const Landing = () => {
   return (
     <div className="w-full h-full bg-black flex justify-center items-center">
       <div className="w-full h-full bg-white flex justify-evenly flex-col sm:flex-row p-20">
         
         <div className="w-1/2 h-full flex flex-col justify-center items-center">
-          <img src="/src/assets/landingDoodle.jpeg" alt="Welcome" className="object-cover h-[110%] w-[100%] mt-[-3em]" />
+          <img src={landingImage} alt="Welcome" className="object-cover h-[110%] w-[100%] mt-[-3em]" />
         </div>
         
         <div className="w-px mt-40 mb-40 bg-gray-200"></div>
@@ -12,7 +15,7 @@ const Landing = () => {
         <div className="w-2/5 p-12 rounded-xl">
           <header className="mb-12">
             <div className="flex justify-center items-center">
-              <img src="/src/assets/mobilityMate-NoBg-lg.png" alt="MobilityMate Logo" className="h-20 mr-3" />
+              <img src={logo} alt="MobilityMate Logo" className="h-20 mr-3" />
               <span className="text-3xl font-bold text-gray-700">MobilityMate</span>
             </div>
           </header>
