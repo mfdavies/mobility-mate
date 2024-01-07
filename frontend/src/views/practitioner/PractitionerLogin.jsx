@@ -1,3 +1,5 @@
+import logo from "../../assets/mobilityMate-NoBg-lg.png";
+import support from "../../assets/signupPractitioner.jpeg";
 import { auth } from '../../../firebaseConfig';
 
 const PractitionerLogin = () => {
@@ -27,7 +29,7 @@ const PractitionerLogin = () => {
             <div className="flex flex-row mb-12">
               <div className="flex justify-center items-center">
                 <div className="h-11 w-12 mb-4">
-                  <img src="/src/assets/mobilityMate-NoBg-lg.png" alt="logo" />
+                  <img src={logo} alt="logo" />
                 </div>
               </div>
               <div className="font-regular text-3xl text-gray-700 ml-4 mt-[6px]">
@@ -69,7 +71,7 @@ const PractitionerLogin = () => {
         <div className="w-px mt-40 mb-40 bg-gray-200"></div>
         
         <div className="w-1/2 h-full flex justify-center items-center">
-          <img src="/src/assets/loginPractitioner.jpeg" alt="Support For All" className="object-cover h-[110%] w-[100%] mt-[-3em]" />
+          <img src={support} alt="Support For All" className="object-cover h-[110%] w-[100%] mt-[-3em]" />
         </div>
 
       </div>
