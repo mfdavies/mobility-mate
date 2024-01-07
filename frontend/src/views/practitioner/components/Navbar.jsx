@@ -1,6 +1,26 @@
+import { auth } from "../../../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
+
+
+
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm("Are you sure you want to sign out?");
+    if (confirmLogout) {
+      auth.signOut().then(function() {
+        navigate('/');
+        console.log('Worked');
+      }).catch(function(error) {
+        console.error('Error signing out:', error);
+      });
+      
+    }
+  };
+  
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-gray-50 ml-1">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">MobilityMate</a>
       </div>
@@ -43,7 +63,7 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={handleLogout}>Logout</a>
             </li>
           </ul>
         </div>

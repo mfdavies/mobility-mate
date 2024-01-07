@@ -146,11 +146,11 @@ const PatientDetails = ({ patientID }) => {
             <p>Date</p>
             <p>Summary</p>
           </div>
-          {convos.map((convo) => (
-            <div className="flex justify-between w-full text-gray-600 text-xl bg-gray-50 rounded-lg pl-2 pr-2">
+          {convos.map((convo, index) => (
+            <div key={index} className="flex justify-between w-full text-gray-600 text-xl bg-gray-50 rounded-lg pl-2 pr-2">
               <p>{formatDate(convo.date)}</p>
               <p>{convo.summary}</p>
-              </div>
+            </div>
           ))}
           </div>) : (<div></div>) }
             </div>
