@@ -49,15 +49,15 @@ const Exercises = () => {
     instructions: ["Step 1 for Card 5", "Step 2 for Card 5", "Step 3 for Card 5"] 
   },
   { 
-    id: 5, 
-    title: "Card 5", 
+    id: 6, 
+    title: "Card 6", 
     description: "Description for Card 5", 
     imageUrl: glutesImage, // Placeholder image
     instructions: ["Step 1 for Card 5", "Step 2 for Card 5", "Step 3 for Card 5"] 
   },
   { 
-    id: 5, 
-    title: "Card 5", 
+    id: 7, 
+    title: "Card 7", 
     description: "Description for Card 5", 
     imageUrl: glutesImage, // Placeholder image
     instructions: ["Step 1 for Card 5", "Step 2 for Card 5", "Step 3 for Card 5"] 

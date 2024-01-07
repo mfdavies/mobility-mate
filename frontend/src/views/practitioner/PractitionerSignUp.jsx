@@ -84,7 +84,7 @@ const PractitionerSignUp = () => {
                   className="mt-1 block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500" />
               </div>
 
-              <button type="submit" className="w-full h-[55px] bg-black hover:bg-gray-800 text-white py-2 px-4 rounded transition duration-300 ease-in-out">
+              <button type="submit" className="w-full h-[55px] bg-black hover:bg-gray-700 text-white py-2 px-4 rounded transition duration-300 ease-in-out">
                 Sign Up
               </button>
 

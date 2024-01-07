@@ -32,10 +32,10 @@ const PractitionerDashboard = () => {
     <div className="min-h-screen">
       <Navbar />
       <main className="p-6 flex">
-        <div className="flex flex-col w-36 h-auto gap-4">
+        <div className="flex flex-col w-36 h-auto gap-4 mt-10">
           <button
             className={`btn ${
-              isPatientsActive ? "bg-dark-teal text-white" : ""
+              isPatientsActive ? "bg-dark-teal text-white hover:bg-gray-600" : "hover:bg-gray-200"
             }`}
             onClick={() => setActiveView("patients")}
           >
@@ -44,7 +44,7 @@ const PractitionerDashboard = () => {
           </button>
           <button
             className={`btn ${
-              isExercisesActive ? "bg-dark-teal text-white" : ""
+              isExercisesActive ? "bg-dark-teal text-white hover:bg-gray-600" : "hover:bg-gray-200"
             }`}
             onClick={() => setActiveView("exercises")}
           >
@@ -52,6 +52,7 @@ const PractitionerDashboard = () => {
             Exercises
           </button>
         </div>
+        <div className="w-px ml-5 mt-9 bg-gray-200"></div>
         {renderView()}
       </main>
     </div>
