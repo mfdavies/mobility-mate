@@ -9,4 +9,4 @@ settings.py
 backend/settings.py
 .vscode
 __pycache__
-env
+build
