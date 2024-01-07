@@ -54,6 +54,28 @@ def send_message():
     reply = conversation.generate_reply(message)
     return jsonify({"reply": reply}), 200
 
+@conversation_blueprint.route("/send_text_message", methods=["POST"])
+def send_text_message():
+    practitioner = request.args.get("practitioner")
+    patient = request.args.get("patient")
+    user_doc_ref = (
+        users_ref.document(practitioner).collection("patients").document(patient)
+    )
+    if "conversation_id" not in session:
+        return jsonify({"reply": "Please start a conversation first"}), 400
+
+    conversation_id = session["conversation_id"]
+    conversation = Conversation(
+        user_doc_ref=user_doc_ref, conversaton_id=conversation_id
+    )
+
+    # Store audio in a temp file
+    message = request.json.get("message")
+
+    # Generate a reply using the Conversation object
+    reply = conversation.generate_reply(message)
+    return jsonify({"reply": reply}), 200
+
 @conversation_blueprint.route('/end', methods=['POST'])
 def end():
     if 'conversation_id' not in session:
