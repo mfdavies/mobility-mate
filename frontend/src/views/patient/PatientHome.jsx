@@ -1,13 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
-import Navbar from './components/Navbar';
-import Exercises from './components/Exercises';
-import VoiceAI from './components/VoiceAI';
-import axios from 'axios';
-import Skeleton from './components/Skeleton';
+import Navbar from "./components/Navbar";
 import RecordButton from "./components/RecordButton";
 // import Ai3D from './components/Ai3D';
 import Conversation from './components/Conversation';
+import Exercises from './components/Exercises';
 import "./styles.css";
+import { useState, useEffect, useCallback } from 'react';
+import VoiceAI from './components/VoiceAI';
+import axios from 'axios';
+import Skeleton from './components/Skeleton';
 
 const PatientHome = () => {
   const [convo, setConvo] = useState({
@@ -44,7 +44,11 @@ const PatientHome = () => {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
+<<<<<<< HEAD
       <main className="flex-grow p-12 overflow-hidden">
+=======
+      <main className="flex-grow pl-6 overflow-hidden">
+>>>>>>> main
         <div className="flex h-full">
           <div className="w-2/3 flex flex-col justify-between h-full left-column">
             <header>
@@ -76,10 +80,16 @@ const PatientHome = () => {
         </div>
       </main>
       <div className="relative">
+<<<<<<< HEAD
         <VoiceAI
           updateUserMessage={updateUserMessage}
           updateGptResponse={updateGptResponse}
         />
+=======
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          {/* <Ai3D /> */}
+        </div>
+>>>>>>> main
       </div>
       {/* TODO: finish button that calls conversation/end */}
     </div>
