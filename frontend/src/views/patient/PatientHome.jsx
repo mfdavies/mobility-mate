@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
-import Conversation from './components/Conversation';
 import Exercises from './components/Exercises';
 import VoiceAI from './components/VoiceAI';
-import Typewriter from 'typewriter-effect';
+import axios from 'axios';
+import Skeleton from './components/Skeleton';
 
 const PatientHome = () => {
   const [convo, setConvo] = useState({
     user: null,
-    gpt: "Let's talk!",
+    gpt: null,
   });
 
   const updateUserMessage = useCallback((newMessage) => {
@@ -17,6 +17,24 @@ const PatientHome = () => {
 
   const updateGptResponse = useCallback((newResponse) => {
     setConvo((prevConvo) => ({ ...prevConvo, gpt: newResponse }));
+  }, []);
+
+  useEffect(() => {
+    const startConversation = async () => {
+      const queryParams = new URLSearchParams({
+        patient: 'demo',
+        practitioner: 'demo',
+      });
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/conversation/start?${queryParams.toString()}`
+        );
+        setConvo((prevConvo) => ({ ...prevConvo, gpt: response.data.reply }));
+      } catch (error) {
+        console.error('Error fetching conversation start:', error);
+      }
+    };
+    startConversation();
   }, []);
 
   return (
@@ -32,7 +50,11 @@ const PatientHome = () => {
             {/* <Conversation messages={messages} /> */}
             <div className="flex flex-col gap-4">
               <p className="text-base">{convo.user}</p>
-              <p className='text-xl font-medium'>{convo.gpt}</p>
+              <p className="text-xl font-medium transition-opacity">
+                {convo.gpt !== null
+                  ? convo.gpt
+                  : <Skeleton />}
+              </p>
             </div>
             <form className="flex items-center">
               <input
