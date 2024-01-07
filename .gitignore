@@ -9,3 +9,6 @@ settings.py
 backend/settings.py
 .vscode
 __pycache__
+service.json
+env
+service.json
