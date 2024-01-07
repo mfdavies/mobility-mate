@@ -3,9 +3,11 @@ import { UserRound, Dumbbell, Plus } from "lucide-react";
 import { db, getCurrentUser } from "../../../firebaseConfig";
 import { useEffect, useState } from "react";
 import NewPatientModal from "./components/NewPatientModal";
+import { useNavigate } from "react-router-dom";
 
 const PractitionerDashboard = () => {
   const [patients, setPatients] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +37,10 @@ const PractitionerDashboard = () => {
 
     fetchData();
   }, []);
+
+  const handleRowClick = (patientId) => {
+    navigate(`/practitioner/patient/${patientId}`);
+  };
 
   return (
     <div className="min-h-screen">
@@ -75,7 +81,12 @@ const PractitionerDashboard = () => {
             </thead>
             <tbody>
               {patients.map((patient, idx) => (
-                <tr key={idx}>
+                <tr
+                  key={idx}
+                  className="hover"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleRowClick(patient.id)}
+                >
                   <td>{patient.id}</td>
                   <th>{patient.name}</th>
                   <td>{patient.age}</td>

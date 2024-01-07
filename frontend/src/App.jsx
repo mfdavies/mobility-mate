@@ -1,10 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Landing from './views/landing/Landing';
-import PatientHome from './views/patient/PatientHome';
-import PractitionerDashboard from './views/practitioner/PractitionerDashboard';
-import PractitionerSignUp from './views/practitioner/PractitionerSignUp' 
-import PractitionerLogin from './views/practitioner/PractitionerLogin';
+import Landing from "./views/landing/Landing";
+import PatientHome from "./views/patient/PatientHome";
+import PractitionerDashboard from "./views/practitioner/PractitionerDashboard";
+import PractitionerSignUp from "./views/practitioner/PractitionerSignUp";
+import PractitionerLogin from "./views/practitioner/PractitionerLogin";
+import PatientDetails from "./views/practitioner/PatientDetails";
 
 const App = () => {
   return (
@@ -12,7 +13,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/patient/:patientID" element={<PatientHome />} />
-        <Route path="/practitioner/dashboard" element={<PractitionerDashboard />} />
+        <Route
+          path="/practitioner/dashboard"
+          element={<PractitionerDashboard />}
+        />
+        <Route
+          path="/practitioner/patient/:patientID"
+          element={<PatientDetails />}
+        />
         <Route path="/practitioner/signUp" element={<PractitionerSignUp />} />
         <Route path="/practitioner/login" element={<PractitionerLogin />} />
       </Routes>
