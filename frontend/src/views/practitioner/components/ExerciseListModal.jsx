@@ -20,7 +20,7 @@ const ExerciseListModal = ({ exercises, onAddExercises, onClose }) => {
 
   const handleSubmit = () => {
     onAddExercises(selectedExercises);
-    onClose();
+    handleClose();
   };
 
   return (

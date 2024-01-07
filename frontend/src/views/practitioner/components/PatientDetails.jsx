@@ -30,13 +30,14 @@ const PatientDetails = ({ patientID }) => {
           }
           const conversationsRef = doc.ref.collection("conversations");
           conversationsRef.onSnapshot((snapshot) => {
-            console.log(snapshot.docs)
-            setConvos(
-              snapshot.docs.map((doc) => ({
+            console.log(snapshot.docs);
+            const sortedConvos = snapshot.docs
+              .map((doc) => ({
                 date: doc.data().date.toDate(),
                 summary: doc.data().summary,
               }))
-            );
+              .sort((a, b) => b.date - a.date); // Sort by date in ascending order
+            setConvos(sortedConvos);
           });
         } else {
           console.error("Patient not found");
