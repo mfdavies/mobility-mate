@@ -1,7 +1,6 @@
 import { auth } from "../../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-
-
+import logo from "../../../assets/mobilityMate-NoBg-lg.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -9,20 +8,23 @@ const Navbar = () => {
   const handleLogout = async () => {
     const confirmLogout = window.confirm("Are you sure you want to sign out?");
     if (confirmLogout) {
-      auth.signOut().then(function() {
-        navigate('/');
-        console.log('Worked');
-      }).catch(function(error) {
-        console.error('Error signing out:', error);
-      });
-      
+      auth
+        .signOut()
+        .then(function () {
+          navigate("/");
+          console.log("Worked");
+        })
+        .catch(function (error) {
+          console.error("Error signing out:", error);
+        });
     }
   };
-  
+
   return (
     <div className="navbar bg-gray-50 ml-1">
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl">MobilityMate</a>
+      <div className="flex-1 h-8">
+        <img className="w-16" src={logo} alt="MobilityMate Logo" />
+        <a className="btn btn-ghost text-xl p-0">MobilityMate</a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
