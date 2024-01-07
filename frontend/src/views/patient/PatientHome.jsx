@@ -1,9 +1,6 @@
-import Navbar from "./components/Navbar";
-import RecordButton from "./components/RecordButton";
-// import Ai3D from './components/Ai3D';
-import Conversation from './components/Conversation';
+import Navbar from './components/Navbar';
 import Exercises from './components/Exercises';
-import "./styles.css";
+import './styles.css';
 import { useState, useEffect, useCallback } from 'react';
 import VoiceAI from './components/VoiceAI';
 import axios from 'axios';
@@ -33,13 +30,18 @@ const PatientHome = () => {
         const response = await axios.get(
           `http://localhost:8080/conversation/start?${queryParams.toString()}`
         );
-        setConvo((prevConvo) => ({ ...prevConvo, gpt: response.data.reply }));
+        setConvo((prevConvo) => {
+          if (prevConvo.gpt === null) {
+            return { ...prevConvo, gpt: response.data.reply };
+          }
+          return prevConvo;
+        });
       } catch (error) {
         console.error('Error fetching conversation start:', error);
       }
     };
     startConversation();
-  }, []);
+  }, []); 
 
   return (
     <div className="flex flex-col h-screen">
@@ -54,11 +56,9 @@ const PatientHome = () => {
             {/* <Conversation messages={messages} /> */}
             <div className="flex flex-col gap-4">
               <p className="text-base">{convo.user}</p>
-              <p className="text-xl font-medium transition-opacity">
-                {convo.gpt !== null
-                  ? convo.gpt
-                  : <Skeleton />}
-              </p>
+              <div className="text-xl font-medium transition-opacity">
+                {convo.gpt !== null ? convo.gpt : <Skeleton />}
+              </div>
             </div>
             <form className="flex items-center">
               <input

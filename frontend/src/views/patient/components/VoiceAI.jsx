@@ -6,7 +6,6 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [isConvoStarted, setIsConvoStarted] = useState(false);
   const [speechRecognition, setSpeechRecognition] = useState(null);
 
   useEffect(() => {
@@ -31,13 +30,13 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
 
   const startRecording = async () => {
     const queryParams = new URLSearchParams({ patient: 'demo', practitioner: 'demo' });
-    if (!isConvoStarted) {
-      // Start a new conversation
-      const gptResponse = await axios.get(`http://localhost:8080/conversation/start?${queryParams.toString()}`);
-      setIsConvoStarted(true);
-      console.log(gptResponse.data.reply); // TODO: speak/display the AI response here
-      updateGptResponse(gptResponse.data.reply);
-    }
+    // if (!isConvoStarted) {
+    //   // Start a new conversation
+    //   const gptResponse = await axios.get(`http://localhost:8080/conversation/start?${queryParams.toString()}`);
+    //   setIsConvoStarted(true);
+    //   console.log(gptResponse.data.reply); // TODO: speak/display the AI response here
+    //   updateGptResponse(gptResponse.data.reply);
+    // }
 
     // Start recording audio
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
