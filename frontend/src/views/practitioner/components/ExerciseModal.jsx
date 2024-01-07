@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { getCurrentUser, db } from "../../../../firebaseConfig";
+import { getCurrentUser, db, storage } from "../../../../firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 
 const emptyForm = {
   title: "",
@@ -9,6 +11,7 @@ const emptyForm = {
 
 const ExerciseModal = () => {
   const [formData, setFormData] = useState(emptyForm);
+  const [image, setImage] = useState(null);
   const [imageString, setImageString] = useState("");
 
   const handleChange = (e) => {
@@ -27,30 +30,48 @@ const ExerciseModal = () => {
       };
 
       reader.readAsDataURL(selectedImage);
+      setImage(selectedImage);
     }
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  // Check if any form fields are empty
-  if (!formData.title || !formData.description || !formData.steps || !imageString) {
-    alert("Please fill in all fields and upload an image.");
-    return;
-  }
+    // Check if any form fields are empty
+    if (
+      !formData.title ||
+      !formData.description ||
+      !formData.steps ||
+      !imageString ||
+      !image
+    ) {
+      alert("Please fill in all fields and upload an image.");
+      return;
+    }
 
-  try {
-    // Add the new exercise to Firestore
-    const currentUser = await getCurrentUser();
-    await db
-      .collection(`practitioners/${currentUser.uid}/exercises`)
-      .add({ ...formData, image: imageString });
-    handleClose();
-  } catch (error) {
-    console.error("Error adding new exercise:", error);
-    alert("Failed to add new exercise. Please try again.");
-  }
-};
+    try {
+      // Upload the image to Firebase Cloud Storage
+      const currentUser = await getCurrentUser();
+      const storageRef = ref(
+        storage,
+        `practitioners/${currentUser.uid}/images/${uuidv4()}`
+      );
+      await uploadBytes(storageRef, image);
+
+      // Get the download URL of the uploaded image
+      const downloadURL = await getDownloadURL(storageRef);
+
+      // Add the new exercise to Firestore with the image URL
+      await db
+        .collection(`practitioners/${currentUser.uid}/exercises`)
+        .add({ ...formData, image: downloadURL });
+
+      handleClose();
+    } catch (error) {
+      console.error("Error adding new exercise:", error);
+      alert("Failed to add new exercise. Please try again.");
+    }
+  };
 
   const handleClose = () => {
     setFormData(emptyForm);
