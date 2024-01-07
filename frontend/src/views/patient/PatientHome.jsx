@@ -4,6 +4,10 @@ import Exercises from './components/Exercises';
 import VoiceAI from './components/VoiceAI';
 import axios from 'axios';
 import Skeleton from './components/Skeleton';
+import RecordButton from "./components/RecordButton";
+// import Ai3D from './components/Ai3D';
+import Conversation from './components/Conversation';
+import "./styles.css";
 
 const PatientHome = () => {
   const [convo, setConvo] = useState({
@@ -42,7 +46,7 @@ const PatientHome = () => {
       <Navbar />
       <main className="flex-grow p-12 overflow-hidden">
         <div className="flex h-full">
-          <div className="w-1/2 flex flex-col justify-between h-full">
+          <div className="w-2/3 flex flex-col justify-between h-full left-column">
             <header>
               <h1 className="text-4xl font-medium">Welcome Back</h1>
               <div className="text-3xl">John</div>
@@ -65,7 +69,8 @@ const PatientHome = () => {
               <button className="btn btn-neutral">Prompt</button>
             </form>
           </div>
-          <div className="w-1/2">
+          <div className="w-px mt-40 mb-40 bg-gray-200"></div>
+          <div className="w-1/3 right-column">
             <Exercises />
           </div>
         </div>
