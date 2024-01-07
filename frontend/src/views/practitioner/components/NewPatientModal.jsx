@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth, db } from "../../../../firebaseConfig";
+import { getCurrentUser, db } from "../../../../firebaseConfig";
 
 const NewPatientModal = () => {
   const [formData, setFormData] = useState({
@@ -18,8 +18,9 @@ const NewPatientModal = () => {
 
     try {
       // Add the new patient data to Firestore
+      const currentUser = await getCurrentUser();
       await db
-        .collection(`practitioners/${auth.currentUser.uid}/patients`)
+        .collection(`practitioners/${currentUser.uid}/patients`)
         .add(formData);
       handleClose();
     } catch (error) {
