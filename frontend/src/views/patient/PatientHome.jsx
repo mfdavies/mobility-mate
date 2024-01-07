@@ -3,6 +3,7 @@ import Exercises from "./components/Exercises";
 import "./styles.css";
 import { useState, useEffect, useCallback } from "react";
 import VoiceAI from "./components/VoiceAI";
+import { db, getCurrentUser } from "../../../firebaseConfig";
 import axios from "axios";
 import Skeleton from "./components/Skeleton";
 import apiUrl from "../../config";
@@ -13,6 +14,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const PatientHome = () => {
   const navigate = useNavigate();
   const {patientID, practitionerID} = useParams();
+  const [patient, setPatient] = useState(null);
   const [convo, setConvo] = useState({
     user: null,
     gpt: null,
@@ -21,6 +23,35 @@ const PatientHome = () => {
   // const [patientID, setPatientId] = useState('');
   // const [practitionerID, setPractitionerId] = useState('');
   const [exercises, setExercises] = useState([]);
+
+  useEffect(() => {
+    const fetchPatientDetails = async () => {
+      const currentUser = await getCurrentUser();
+
+      // Fetch patient details
+      const patientRef = db
+        .collection("practitioners")
+        .doc(currentUser.uid)
+        .collection("patients")
+        .doc(patientID);
+
+      const unsubscribePatient = patientRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          const patientData = doc.data();
+          setPatient(patientData);
+          console.log(patient)
+        } else {
+          console.error("Patient not found");
+        }
+      });
+
+      return () => {
+        unsubscribePatient();
+      };
+    };
+
+    fetchPatientDetails();
+  }, [patientID]);
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
@@ -134,7 +165,9 @@ const PatientHome = () => {
               <header className="flex justify-between items-center">
                 <div>
                   <h1 className="text-4xl font-medium">Welcome Back</h1>
-                  <div className="text-2xl">John Doe</div>
+                  <div className="text-2xl">
+                  {patient && patient.name ? patient.name : ''}
+                  </div>
                 </div>
                 <button
                   onClick={handleEndSession}
