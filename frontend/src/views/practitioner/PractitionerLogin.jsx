@@ -1,5 +1,5 @@
 import logo from "../../assets/mobilityMate-NoBg-lg.png";
-import support from "../../assets/signupPractitioner.jpeg";
+import support from "../../assets/loginPractitioner.jpeg";
 import { auth } from '../../../firebaseConfig';
 
 const PractitionerLogin = () => {
@@ -71,7 +71,7 @@ const PractitionerLogin = () => {
             <div className="flex mb-10">
               <button
                 type="submit"
-                className="w-full h-[55px] bg-black hover:bg-gray-800 text-white py-2 px-4 rounded"
+                className="w-full h-[55px] bg-black hover:bg-gray-700 text-white py-2 px-4 rounded"
               >
                 Login
               </button>
