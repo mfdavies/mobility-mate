@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { getCurrentUser, db } from "../../../../firebaseConfig";
 
+const emptyForm = {
+  name: "",
+  email: "",
+  age: "",
+};
+
 const NewPatientModal = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    age: "",
-  });
+  const [formData, setFormData] = useState(emptyForm);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +31,7 @@ const NewPatientModal = () => {
   };
 
   const handleClose = () => {
+    setFormData(emptyForm);
     document.getElementById("new_patient_modal").close();
   };
 
@@ -41,45 +44,48 @@ const NewPatientModal = () => {
         <h3 className="font-bold text-lg">Register a New Patient</h3>
         {/* <p className="py-4">Press ESC key or click the button below to close</p> */}
         <div className="modal-action w-full">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group w-full">
-              <label>
+          <form className="w-full" onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label htmlFor="name" className="text-gray-800">
                 Name
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="ml-4"
-                />
               </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="John Doe"
+                value={formData.name}
+                className="block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500"
+                onChange={handleChange}
+              />
             </div>
-            <div className="form-group">
-              <label>
+            <div className="mb-6">
+              <label htmlFor="email" className="text-gray-800">
                 Email
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="ml-4"
-                />
               </label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                value={formData.email}
+                placeholder="johndoe@domain.com"
+                className="block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500"
+                onChange={handleChange}
+              />
             </div>
-            <div className="form-group">
-              <label>
+            <div className="mb-6">
+              <label htmlFor="email" className="text-gray-800">
                 Age
-                <input
-                  type="number"
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                  className="ml-4"
-                />
               </label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                value={formData.age}
+                placeholder="75"
+                className="block p-4 w-full text-black bg-[#f1f1f1] rounded-lg border sm:text-md focus:outline-none focus:border-gray-500"
+                onChange={handleChange}
+              />
             </div>
             <div className="flex gap-4">
               <button className="btn  bg-dark-teal text-white" type="submit">
