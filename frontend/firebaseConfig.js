@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
+import "firebase/compat/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdjuKe_DkpM9PT71WMfl7l3SVpCeZfD5c",
@@ -19,6 +20,7 @@ if (!firebase.apps.length) {
 
 export const db = firebase.firestore();
 export const auth = firebase.auth();
+export const storage = firebase.storage();
 export async function getCurrentUser() {
   return new Promise((resolve, reject) => {
     if (auth.currentUser) {
