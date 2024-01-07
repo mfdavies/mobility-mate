@@ -44,7 +44,7 @@ const PatientHome = () => {
   }, []);
 
   return (
-    <div className="outer-frame">
+    <div className="outer-frame text-dark-teal  ">
       <div className="inner-frame flex flex-col h-full p-6">
         {/* <Navbar /> */}
         <main className="flex-grow p-6 overflow-hidden">
@@ -70,8 +70,7 @@ const PatientHome = () => {
                 <button className="btn btn-neutral">Prompt</button>
               </form>
             </div>
-            <div className="w-px mt-40 mb-40 bg-gray-200"></div>
-            <div className="w-1/3 right-column">
+            <div className="w-1/3 right-column border-l-[1px]">
               <Exercises />
             </div>
           </div>
