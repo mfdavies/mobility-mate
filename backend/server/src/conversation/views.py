@@ -45,6 +45,16 @@ def send_message():
     )
 
     # Store audio in a temp file
+    message = request.json.get("message")
+
+    # Generate a reply using the Conversation object
+    reply = conversation.generate_reply(message)
+    return jsonify({"reply": reply}), 200
+
+@conversation_blueprint.route("/transcribe", methods=["POST"])
+def transcribe():
+
+    # Store audio in a temp file
     audio = request.files["audioFile"]
     temp_audio_path = os.path.join(tempfile.gettempdir(), "received_audio.wav")
     audio.save(temp_audio_path)
@@ -54,5 +64,4 @@ def send_message():
     os.remove(temp_audio_path)
 
     # Generate a reply using the Conversation object
-    reply = conversation.generate_reply(message)
-    return jsonify({"reply": reply}), 200
+    return jsonify({"user_msg": message}), 200
