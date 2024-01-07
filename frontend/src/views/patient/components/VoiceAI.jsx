@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import apiUrl from '../../../config';
 import gsap from 'gsap';
 import React, { Suspense } from 'react';
 

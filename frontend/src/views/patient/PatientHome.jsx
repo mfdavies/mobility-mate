@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback } from 'react';
 import VoiceAI from './components/VoiceAI';
 import axios from 'axios';
 import Skeleton from './components/Skeleton';
-import apiUrl from "../../config";
 import { LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
