@@ -14,7 +14,7 @@ const ExerciseCard = ({ name, description, moreInfo, image }) => {
       <figure className="">
         <img
           src={image}
-          alt="Shoes"
+          alt="Exercise Image"
           className="rounded-xl object-contain w-full h-auto"
         />
       </figure>

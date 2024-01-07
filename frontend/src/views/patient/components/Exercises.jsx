@@ -24,6 +24,7 @@ const Exercises = ({exercises}) => {
   //   },
   // ];
   const [selectedCard, setSelectedCard] = useState(null);
+  console.log(exercises)
 
   const cards = [
     {
@@ -157,9 +158,9 @@ const Exercises = ({exercises}) => {
       {exercises.map((exercise, index) => (
         <div key={index} className="carousel-item h-full">
           <ExerciseCard
-            name={exercise.name}
+            name={exercise.title}
             description={exercise.description}
-            image={exercise.imageUrl}
+            image={exercise.image}
           />
         </div>
       ))}
