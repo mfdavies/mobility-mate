@@ -116,14 +116,14 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
     <div>
       <button
         onClick={isRecording ? triggerEnd : triggerStart}
-        className="absolute bottom-[-100px] left-1/2 transform -translate-x-1/2 w-42 h-342"
+        className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-44 h-44"
       >
         {/* <div
           className={`${
             isRecording ? 'animate-ping' : ''
           } w-28 h-28 bg-baby-blue rounded-full`}
         ></div> */}
-        <Suspense fallback={<div className="skeleton h-32 w-32"></div>}>
+        <Suspense fallback={<div className="skeleton h-44 w-44"></div>}>
           {/* <Spline
             className="bg-transparent"
             onLoad={onLoad}
