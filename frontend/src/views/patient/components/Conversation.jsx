@@ -4,7 +4,7 @@ const Conversation = ({ messages }) => {
   const endOfMessagesRef = useRef(null);
 
   useEffect(() => {
-    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
