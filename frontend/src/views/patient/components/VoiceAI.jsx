@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-
+import apiUrl from '../../../config';
 const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
   const sphere = useRef();
   const [isRecording, setIsRecording] = useState(false);
@@ -33,7 +33,7 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
     const queryParams = new URLSearchParams({ patient: 'demo', practitioner: 'demo' });
     if (!isConvoStarted) {
       // Start a new conversation
-      const gptResponse = await axios.get(`http://localhost:8080/conversation/start?${queryParams.toString()}`);
+      const gptResponse = await axios.get(`${apiUrl}/conversation/start?${queryParams.toString()}`);
       setIsConvoStarted(true);
       console.log(gptResponse.data.reply); // TODO: speak/display the AI response here
       updateGptResponse(gptResponse.data.reply);
@@ -56,13 +56,13 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       const formData = new FormData();
       formData.append('audioFile', audioBlob, 'recorded_audio.wav');
 
-      const userMessage = await axios.post(`http://localhost:8080/conversation/transcribe`, formData);
+      const userMessage = await axios.post(`${apiUrl}/conversation/transcribe`, formData);
       updateUserMessage(userMessage.data.user_msg); // Update with the final, reliable transcription
       console.log(userMessage);
 
       // Fetch GPT response
       const gptResponse = await axios.post(
-        `http://localhost:8080/conversation/send_message?${queryParams.toString()}`,
+        `${apiUrl}/conversation/send_message?${queryParams.toString()}`,
         { "message": userMessage.data.user_msg }
       );
       updateGptResponse(gptResponse.data.reply);
