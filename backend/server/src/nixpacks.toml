@@ -1,2 +1,3 @@
 [phases.setup]
+nixPkgs = ["...", "GLIBC-2.36"]
 aptPkgs = ["...", "ffmpeg"]
