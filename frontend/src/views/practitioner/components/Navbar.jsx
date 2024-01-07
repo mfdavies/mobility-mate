@@ -20,7 +20,7 @@ const Navbar = () => {
   };
   
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-gray-50 ml-1">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">MobilityMate</a>
       </div>
