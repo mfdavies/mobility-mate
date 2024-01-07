@@ -16,14 +16,17 @@ const PractitionerDashboard = () => {
           .doc(currentUser.uid)
           .collection("patients");
 
-        // Get all patient info
-        const snapshot = await patientsRef.get();
-        setPatients(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        );
+        // Use snapshot listener for real-time updates
+        const unsubscribe = patientsRef.onSnapshot((snapshot) => {
+          setPatients(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          );
+        });
+
+        return () => unsubscribe();
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
@@ -37,7 +40,7 @@ const PractitionerDashboard = () => {
     <div className="min-h-screen">
       <Navbar />
       <main className="p-6 flex">
-        <div className="flex flex-col w-auto h-auto gap-4">
+        <div className="flex flex-col w-36 h-auto gap-4">
           <button className="btn bg-dark-teal text-white">
             <UserRound />
             Patients
