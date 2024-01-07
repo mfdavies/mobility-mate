@@ -60,7 +60,6 @@ app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 app.config["MAIL_DEFAULT_SENDER"] = os.getenv("MAIL_DEFAULT_SENDER")
 mail = Mail(app)
 
-https://github.com/mfdavies/mobility-mate/tree/main
 @app.route("/patient/send-link", methods=["POST"])
 def send_link():
     try:
