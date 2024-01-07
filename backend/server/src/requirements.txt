@@ -14,6 +14,7 @@ filelock==3.13.1
 firebase==4.0.1
 firebase-admin==6.3.0
 Flask==3.0.0
+Flask-Cors==4.0.0
 Flask-Mail==0.9.1
 fsspec==2023.12.2
 google-api-core==2.15.0
@@ -46,7 +47,6 @@ numba==0.58.1
 numpy==1.26.3
 openai==1.6.1
 openai-whisper==20231117
-packaging==23.2
 proto-plus==1.23.0
 protobuf==4.25.1
 pyasn1==0.5.1
@@ -57,7 +57,6 @@ pydantic_core==2.14.6
 PyJWT==2.8.0
 pyparsing==3.1.1
 python-dotenv==1.0.0
-python-env==1.0.0
 regex==2023.12.25
 requests==2.31.0
 rsa==4.9

@@ -40,6 +40,7 @@ def create_service_dict():
         "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
         "universe_domain": os.getenv("UNIVERSE_DOMAIN")
     }
+    print(variables_keys)
     return variables_keys
 
 cred = credentials.Certificate(create_service_dict())
