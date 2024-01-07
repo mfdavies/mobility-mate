@@ -20,6 +20,7 @@ def get_all():
     exercise_list = []
     for exercise in exercises:
         exercise_data = exercise.to_dict()
+        exercise_data["id"] = exercise.id  # Add the ID to the exercise data
         exercise_list.append(exercise_data)
     
     return jsonify({"exercises": exercise_list}), 200
