@@ -46,7 +46,7 @@ const Navbar = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a href="/practitioner/profile">Logout</a>
             </li>
           </ul>
         </div>
