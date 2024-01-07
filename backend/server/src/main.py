@@ -32,9 +32,12 @@ cred = credentials.Certificate(create_service_dict())
 firebase_admin.initialize_app(cred)
 
 from conversation.views import conversation_blueprint
+from exercise.views import exercise_blueprint
 
 # Register the conversation Blueprint
 app.register_blueprint(conversation_blueprint, url_prefix="/conversation")
+app.register_blueprint(exercise_blueprint, url_prefix="/exercise")
+
 CORS(app)
 
 # Load Flask-Mail config from .env
