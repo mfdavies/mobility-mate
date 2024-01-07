@@ -1,6 +1,3 @@
-FROM gcr.io/cloud-builders/gcloud
-RUN git config --system credential.helper gcloud.sh
-
 # 1 
 FROM python:3.7
 
