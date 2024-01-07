@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { db, getCurrentUser } from "../../../firebaseConfig";
+import { db, getCurrentUser } from "../../../../firebaseConfig";
 
-const PatientDetails = () => {
-  const { patientID } = useParams();
+const PatientDetails = ({ patientID }) => {
   const [patient, setPatient] = useState(null);
   console.log(patientID);
 
@@ -37,13 +35,15 @@ const PatientDetails = () => {
   return (
     <div>
       {patient ? (
-        <div>
-          <h2>{patient.name}s Details</h2>
-          <p>ID: {patientID}</p>
-          <p>Age: {patient.age}</p>
-          <p>Email: {patient.email}</p>
-          <p>Last Login: {patient.lastLogin || "Never"}</p>
-          {/* Render other patient details as needed */}
+        <div className="p-4">
+          <h1 className="text-4xl font-bold mb-4">{patient.name}</h1>
+          <div className="flex space-x-4 text-gray-600 text-xl">
+            <p>{patientID}</p>
+            <p>{patient.age}</p>
+            <p>{patient.email}</p>
+            <p>{patient.lastLogin || "Never"}</p>
+            {/* Render other patient details as needed */}
+          </div>
         </div>
       ) : (
         <p>Loading patient details...</p>
