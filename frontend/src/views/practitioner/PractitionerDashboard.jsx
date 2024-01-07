@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import { UserRound, Dumbbell, Plus } from "lucide-react";
-import { auth, db } from "../../../firebaseConfig";
+import { db, getCurrentUser } from "../../../firebaseConfig";
 import { useEffect, useState } from "react";
 import NewPatientModal from "./components/NewPatientModal";
 
@@ -9,10 +9,11 @@ const PractitionerDashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const currentUser = await getCurrentUser();
       try {
         const patientsRef = db
           .collection("practitioners")
-          .doc(auth.currentUser.uid)
+          .doc(currentUser.uid)
           .collection("patients");
 
         // Get all patient info
