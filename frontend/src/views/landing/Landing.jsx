@@ -27,7 +27,7 @@ const Landing = () => {
               Experience seamless management of exercise routines, patient records, and progress tracking.
             </p>
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-              <a href="/practitioner/signUp" className="bg-gray-800 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-700 flex-grow text-center">Sign Up as Practitioner</a>
+              <a href="/practitioner/login" className="bg-gray-800 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-700 flex-grow text-center">Login as Practitioner</a>
               <a href="/patient/signUp" className="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-300 flex-grow text-center">Join as a Patient</a>
             </div>
           </main>
