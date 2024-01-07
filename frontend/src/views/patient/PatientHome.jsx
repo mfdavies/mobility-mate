@@ -7,8 +7,8 @@ import Typewriter from 'typewriter-effect';
 
 const PatientHome = () => {
   const [convo, setConvo] = useState({
-    user: 'init user msg',
-    gpt: 'init gpt reply',
+    user: null,
+    gpt: "Let's talk!",
   });
 
   const updateUserMessage = useCallback((newMessage) => {
@@ -18,25 +18,6 @@ const PatientHome = () => {
   const updateGptResponse = useCallback((newResponse) => {
     setConvo((prevConvo) => ({ ...prevConvo, gpt: newResponse }));
   }, []);
-
-  const messages = [
-    {
-      sender: 'patient',
-      text: 'Hi there, and I was hoping to try something new today. Can you guide me through a specific exercise from the set you provided?',
-    },
-    {
-      sender: 'ai',
-      text: "Of course! I'm glad to hear you've been keeping up with your exercises. Which one were you thinking of trying, or do you have a specific area you'd like to focus on today?",
-    },
-    {
-      sender: 'patient',
-      text: 'Hi there, and I was hoping to try something new today. Can you guide me through a specific exercise from the set you provided?',
-    },
-    {
-      sender: 'ai',
-      text: "Of course! I'm glad to hear you've been keeping up with your exercises. Which one were you thinking of trying, or do you have a specific area you'd like to focus on today?",
-    },
-  ];
 
   return (
     <div className="flex flex-col h-screen">
@@ -49,9 +30,9 @@ const PatientHome = () => {
               <div className="text-3xl">John</div>
             </header>
             {/* <Conversation messages={messages} /> */}
-            <div className="">
-              <p className='text-xl'>{convo.user}</p>
-              <p className='text-3xl font-medium'>{convo.gpt}</p>
+            <div className="flex flex-col gap-4">
+              <p className="text-base">{convo.user}</p>
+              <p className='text-xl font-medium'>{convo.gpt}</p>
             </div>
             <form className="flex items-center">
               <input
@@ -73,6 +54,7 @@ const PatientHome = () => {
           updateGptResponse={updateGptResponse}
         />
       </div>
+      {/* TODO: finish button that calls conversation/end */}
     </div>
   );
 };
