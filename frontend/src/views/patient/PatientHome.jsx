@@ -1,8 +1,9 @@
 import Navbar from "./components/Navbar";
 import RecordButton from "./components/RecordButton";
-import Ai3D from './components/Ai3D';
+// import Ai3D from './components/Ai3D';
 import Conversation from './components/Conversation';
 import Exercises from './components/Exercises';
+import "./styles.css";
 
 const PatientHome = () => {
   const messages = [
@@ -27,9 +28,9 @@ const PatientHome = () => {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <main className="flex-grow p-6 overflow-hidden">
+      <main className="flex-grow pl-6 overflow-hidden">
         <div className="flex h-full">
-          <div className="w-1/2 flex flex-col justify-between h-full">
+          <div className="w-2/3 flex flex-col justify-between h-full left-column">
             <header>
               <h1 className="text-4xl font-medium">Welcome Back</h1>
               <div className="text-3xl">John</div>
@@ -44,7 +45,8 @@ const PatientHome = () => {
             <button className="btn btn-neutral">Prompt</button>
           </form>
           </div>
-          <div className="w-1/2">
+          <div className="w-px mt-40 mb-40 bg-gray-200"></div>
+          <div className="w-1/3 right-column">
             <Exercises />
           </div>
         </div>
@@ -52,7 +54,7 @@ const PatientHome = () => {
       <RecordButton />
       <div className="relative">
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <Ai3D />
+          {/* <Ai3D /> */}
         </div>
       </div>
     </div>
