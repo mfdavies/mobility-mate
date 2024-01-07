@@ -3,7 +3,7 @@ import { db, getCurrentUser } from "../../../../firebaseConfig";
 import { Plus } from "lucide-react";
 import NewPatientModal from "./NewPatientModal";
 
-const PatientTable = ({ onPatientClick }) => {
+const PatientTable = ({ onPatientClick, refreshPatients }) => {
   const [patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // State to track loading
 
@@ -34,7 +34,7 @@ const PatientTable = ({ onPatientClick }) => {
     };
 
     fetchData();
-  }, []);
+  }, [refreshPatients]);
 
   const handleRowClick = (patientId) => {
     onPatientClick(patientId);
@@ -54,10 +54,8 @@ const PatientTable = ({ onPatientClick }) => {
       </div>
 
       {isLoading ? (
-        <div className="w-full bg-gray-50 rounded-lg mt-4 p-5">
-          <span>Loading...</span> {/* Replace with your spinner or loading component */}
-        </div>
-      ) : (
+        <div>Loading...</div>
+      ) : patients.length > 0 ? (
         <div className="w-full bg-gray-50 rounded-lg">
           <table className="table w-full mt-4 rounded-lg">
             <thead>
@@ -86,6 +84,10 @@ const PatientTable = ({ onPatientClick }) => {
               ))}
             </tbody>
           </table>
+        </div>
+      ) : (
+        <div className="w-full bg-gray-50 rounded-lg mt-4 p-5">
+          No patients exist.
         </div>
       )}
 
