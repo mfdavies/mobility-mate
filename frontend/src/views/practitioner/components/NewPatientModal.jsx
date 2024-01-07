@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { getCurrentUser, db } from "../../../../firebaseConfig";
+import apiUrl from "../../../config";
+import axios from "axios";
 
 const emptyForm = {
   name: "",
@@ -21,9 +23,18 @@ const NewPatientModal = () => {
     try {
       // Add the new patient data to Firestore
       const currentUser = await getCurrentUser();
-      await db
+      const patientDoc = await db
         .collection(`practitioners/${currentUser.uid}/patients`)
         .add(formData);
+
+      console.log(patientDoc.id);
+      // Send patient an email access link
+      await axios.post(`${apiUrl}/patient/send-link`, {
+        uid: patientDoc.id,
+        name: formData.name,
+        email: formData.email,
+      });
+
       handleClose();
     } catch (error) {
       console.error("Error adding new patient:", error);
