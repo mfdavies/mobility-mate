@@ -160,6 +160,7 @@ const Exercises = ({exercises}) => {
           <ExerciseCard
             name={exercise.title}
             description={exercise.description}
+            steps={exercise.steps}
             image={exercise.image}
           />
         </div>

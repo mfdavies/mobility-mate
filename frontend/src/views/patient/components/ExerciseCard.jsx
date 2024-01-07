@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ExerciseCard = ({ name, description, moreInfo, image }) => {
+const ExerciseCard = ({ name, description, steps, image }) => {
   // State to toggle view
   const [detailedView, setDetailedView] = useState(false);
 
@@ -8,6 +8,7 @@ const ExerciseCard = ({ name, description, moreInfo, image }) => {
   const handleViewClick = () => {
     setDetailedView(!detailedView);
   };
+  const stepsList = steps.split('\n');
 
   return (
     <div className="card w-96 bg-base-100 border-[1px] shadow-none">
@@ -20,10 +21,17 @@ const ExerciseCard = ({ name, description, moreInfo, image }) => {
       </figure>
       <div className="card-body">
         {detailedView ? (
-          // Detailed view with more information
           <div>
-            <h2 className="card-title">{name} - Details</h2>
-            <p>{moreInfo}</p>
+            <h2 className="card-title">{name} steps</h2>
+
+            <ul className="list-disc list-inside ">
+              {stepsList.map((item, index) => (
+                <li key={index} className="text-dark-teal">
+                  {item}
+                </li>
+              ))}
+            </ul>
+
             <div className="card-actions justify-end">
               <button className="btn " onClick={handleViewClick}>
                 Less
