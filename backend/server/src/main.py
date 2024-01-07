@@ -11,7 +11,7 @@ from flask_cors import CORS
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
-cred = credentials.Certificate("service.json")
+cred = credentials.Certificate(os.getenv("service"))
 firebase_admin.initialize_app(cred)
 
 from conversation.views import conversation_blueprint
