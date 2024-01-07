@@ -15,6 +15,37 @@ const PatientHome = () => {
     user: null,
     gpt: null,
   });
+  const [userInput, setUserInput] = useState("");
+
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setConvo((prevConvo) => ({ ...prevConvo, gpt: null }));
+    updateUserMessage(userInput);
+    const queryParams = new URLSearchParams({
+      patient: "demo",
+      practitioner: "demo",
+    });
+    try {
+      const response = await axios.post(
+        `${apiUrl}/conversation/send_text_message?${queryParams.toString()}`,
+        { message: userInput }
+      );
+      console.log(response.data.reply);
+      setConvo((prevConvo) => {
+        if (prevConvo.gpt === null) {
+          return { ...prevConvo, gpt: response.data.reply };
+        }
+        return prevConvo;
+      });
+    } catch (error) {
+      console.error("Error fetching conversation start:", error);
+    }
+    setUserInput("");
+  };
 
   const updateUserMessage = useCallback((newMessage) => {
     setConvo((prevConvo) => ({ ...prevConvo, user: newMessage }));
@@ -76,7 +107,7 @@ const PatientHome = () => {
               <header className="flex justify-between items-center">
                 <div>
                   <h1 className="text-4xl font-medium">Welcome Back</h1>
-                  <div className="text-3xl">John</div>
+                  <div className="text-2xl">John Doe</div>
                 </div>
                 <button
                   onClick={handleEndSession}
@@ -93,11 +124,13 @@ const PatientHome = () => {
                   {convo.gpt !== null ? convo.gpt : <Skeleton />}
                 </div>
               </div>
-              <form className="flex items-center">
+              <form className="flex items-center" onSubmit={handleFormSubmit}>
                 <input
                   type="text"
                   placeholder="You can type here..."
                   className="input input-bordered w-full max-w-xs mr-2"
+                  value={userInput}
+                  onChange={handleInputChange}
                 />
                 <button className="btn btn-neutral">Prompt</button>
               </form>
