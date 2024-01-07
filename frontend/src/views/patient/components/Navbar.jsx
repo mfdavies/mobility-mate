@@ -1,6 +1,6 @@
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border-b-[1px]">
       <div className="flex-1">
         <a className="btn btn-ghost text-xl">MobilityMate</a>
       </div>
@@ -28,7 +28,7 @@ const Navbar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2018/12/Gradient_builder_2.jpg?auto=format&q=60&fit=max&w=930"
               />
             </div>
           </div>
