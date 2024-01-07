@@ -6,9 +6,6 @@ export default defineConfig({
   base: '/',
   plugins: [react()],
   build: {
-    outDir: 'public',
-  },
-  server: {
-    historyApiFallback: true,
+    outDir: '../build',
   }
 })
