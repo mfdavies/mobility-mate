@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import { UserRound, Dumbbell } from "lucide-react";
 import PatientTable from "./components/PatientTable";
 import PatientDetails from "./components/PatientDetails";
+import Exercises from "./components/Exercises";
 
 const PractitionerDashboard = () => {
   const [activeView, setActiveView] = useState("patients");
@@ -20,8 +21,8 @@ const PractitionerDashboard = () => {
     switch (activeView) {
       case "patientDetails":
         return <PatientDetails patientID={selectedPatientId} />;
-      // case "exercises":
-      //   return <ExercisesTable />;
+      case "exercises":
+        return <Exercises />;
       default:
         return <PatientTable onPatientClick={handlePatientClick} />;
     }
