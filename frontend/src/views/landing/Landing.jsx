@@ -12,7 +12,7 @@ const Landing = () => {
         
         <div className="w-px mt-40 mb-40 bg-gray-200"></div>
         
-        <div className="w-2/5 p-12 rounded-xl">
+        <div className="w-2/5 p-12 rounded-xl mt-40">
           <header className="mb-12">
             <div className="flex justify-center items-center">
               <img src={logo} alt="MobilityMate Logo" className="h-20 mr-3" />

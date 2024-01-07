@@ -31,19 +31,26 @@ const ExerciseModal = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      // Add the new exercise to Firestore
-      const currentUser = await getCurrentUser();
-      await db
-        .collection(`practitioners/${currentUser.uid}/exercises`)
-        .add({ ...formData, image: imageString });
-      handleClose();
-    } catch (error) {
-      console.error("Error adding new patient:", error);
-    }
-  };
+  // Check if any form fields are empty
+  if (!formData.title || !formData.description || !formData.steps || !imageString) {
+    alert("Please fill in all fields and upload an image.");
+    return;
+  }
+
+  try {
+    // Add the new exercise to Firestore
+    const currentUser = await getCurrentUser();
+    await db
+      .collection(`practitioners/${currentUser.uid}/exercises`)
+      .add({ ...formData, image: imageString });
+    handleClose();
+  } catch (error) {
+    console.error("Error adding new exercise:", error);
+    alert("Failed to add new exercise. Please try again.");
+  }
+};
 
   const handleClose = () => {
     setFormData(emptyForm);
@@ -102,13 +109,6 @@ Step 2. Sit down in the chair.
                 onChange={handleChange}
               />
             </div>
-            {imageString && (
-              <img
-                src={imageString}
-                alt="Selected"
-                className="max-w-full mb-4 rounded"
-              />
-            )}
             <div className="mb-6">
               <label htmlFor="image" className="text-gray-800">
                 Image Demonstration
@@ -122,6 +122,13 @@ Step 2. Sit down in the chair.
                 onChange={handleImageChange}
               />
             </div>
+            {imageString && (
+              <img
+                src={imageString}
+                alt="Selected"
+                className="max-w-full mb-4 rounded"
+              />
+            )}
             <div className="flex gap-4">
               <button className="btn  bg-dark-teal text-white" type="submit">
                 Submit
