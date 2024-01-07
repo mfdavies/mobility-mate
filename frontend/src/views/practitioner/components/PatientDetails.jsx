@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { db, getCurrentUser } from "../../../../firebaseConfig";
+import { Edit } from "lucide-react";
 
 const PatientDetails = ({ patientID }) => {
   const [patient, setPatient] = useState(null);
@@ -33,16 +34,25 @@ const PatientDetails = ({ patientID }) => {
   }, [patientID]);
 
   return (
-    <div>
+    <div className="w-full py-4 px-8">
       {patient ? (
-        <div className="p-4">
+        <div>
           <h1 className="text-4xl font-bold mb-4">{patient.name}</h1>
-          <div className="flex space-x-4 text-gray-600 text-xl">
+          <div className="flex justify-between w-full text-gray-600 text-xl">
             <p>{patientID}</p>
-            <p>{patient.age}</p>
+            <p>{patient.age} years old</p>
             <p>{patient.email}</p>
-            <p>{patient.lastLogin || "Never"}</p>
-            {/* Render other patient details as needed */}
+            <p>Last Login: {patient.lastLogin || "Never"}</p>
+          </div>
+          <div className="flex justify-between w-full text-xl font-bold mt-16">
+            <p>Exercise Routine</p>
+            <button
+              className={"btn bg-dark-teal text-white"}
+              onClick={() => {}}
+            >
+              <Edit />
+              Exercises
+            </button>
           </div>
         </div>
       ) : (
