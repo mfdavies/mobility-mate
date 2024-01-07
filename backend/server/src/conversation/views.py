@@ -45,6 +45,16 @@ def send_message():
     )
 
     # Store audio in a temp file
+    message = request.json.get("message")
+
+    # Generate a reply using the Conversation object
+    reply = conversation.generate_reply(message)
+    return jsonify({"reply": reply}), 200
+
+@conversation_blueprint.route("/transcribe", methods=["POST"])
+def transcribe():
+
+    # Store audio in a temp file
     audio = request.files["audioFile"]
     temp_audio_path = os.path.join(tempfile.gettempdir(), "received_audio.wav")
     audio.save(temp_audio_path)
@@ -54,5 +64,19 @@ def send_message():
     os.remove(temp_audio_path)
 
     # Generate a reply using the Conversation object
-    reply = conversation.generate_reply(message)
-    return jsonify({"reply": reply}), 200
+    return jsonify({"user_msg": message}), 200
+
+@conversation_blueprint.route('/end', methods=['POST'])
+def end():
+    if 'conversation_id' not in session:
+        return jsonify({'reply': 'No Conversation to end'}), 200
+    conversation_id = session.pop('conversation_id')
+    practitioner = request.args.get('practitioner')
+    patient = request.args.get('patient')
+
+    user_doc_ref = users_ref.document(practitioner).collection("patients").document(patient)
+
+    # Retrieve the Conversation object based on the conversation ID
+    conversation = Conversation(user_doc_ref, conversaton_id=conversation_id)
+    summary = conversation.end_conversation()
+    return jsonify({'reply': summary}), 200
