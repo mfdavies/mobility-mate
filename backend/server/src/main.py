@@ -1,17 +1,3 @@
-# from flask import Flask, jsonify
-# import os
-
-# app = Flask(__name__)
-
-
-# @app.route('/')
-# def index():
-#     return jsonify({"Choo Choo": "Welcome to your Flask app"})
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True, port=os.getenv("PORT", default=5000))
-
 from flask import Flask, request, jsonify, render_template
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
@@ -40,7 +26,6 @@ def create_service_dict():
         "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
         "universe_domain": os.getenv("UNIVERSE_DOMAIN")
     }
-    print(variables_keys)
     return variables_keys
 
 cred = credentials.Certificate(create_service_dict())
