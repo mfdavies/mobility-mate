@@ -3,7 +3,6 @@ import axios from 'axios';
 import apiUrl from '../../../config';
 import gsap from 'gsap';
 import React, { Suspense } from 'react';
-import apiUrl from "../../../config";
 
 const Spline = React.lazy(() => import('@splinetool/react-spline'));
 

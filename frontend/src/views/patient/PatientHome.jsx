@@ -8,7 +8,6 @@ import Skeleton from './components/Skeleton';
 import apiUrl from "../../config";
 import { LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import apiUrl from "../../config";
 
 const PatientHome = () => {
   const navigate = useNavigate();
