@@ -27,10 +27,10 @@ const NewPatientModal = () => {
         .collection(`practitioners/${currentUser.uid}/patients`)
         .add(formData);
 
-      console.log(patientDoc.id);
       // Send patient an email access link
       await axios.post(`${apiUrl}/patient/send-link`, {
-        uid: patientDoc.id,
+        practitionId: currentUser.uid,
+        patientId: patientDoc.id,
         name: formData.name,
         email: formData.email,
       });

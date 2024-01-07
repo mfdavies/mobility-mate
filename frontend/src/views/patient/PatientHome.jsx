@@ -1,13 +1,13 @@
-import Navbar from './components/Navbar';
-import Exercises from './components/Exercises';
-import './styles.css';
-import { useState, useEffect, useCallback } from 'react';
-import VoiceAI from './components/VoiceAI';
-import axios from 'axios';
-import Skeleton from './components/Skeleton';
+import Navbar from "./components/Navbar";
+import Exercises from "./components/Exercises";
+import "./styles.css";
+import { useState, useEffect, useCallback } from "react";
+import VoiceAI from "./components/VoiceAI";
+import axios from "axios";
+import Skeleton from "./components/Skeleton";
 import apiUrl from "../../config";
-import { LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PatientHome = () => {
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ const PatientHome = () => {
   useEffect(() => {
     const startConversation = async () => {
       const queryParams = new URLSearchParams({
-        patient: 'demo',
-        practitioner: 'demo',
+        patient: "demo",
+        practitioner: "demo",
       });
       try {
         const response = await axios.get(
@@ -41,7 +41,7 @@ const PatientHome = () => {
           return prevConvo;
         });
       } catch (error) {
-        console.error('Error fetching conversation start:', error);
+        console.error("Error fetching conversation start:", error);
       }
     };
     startConversation();
@@ -49,16 +49,20 @@ const PatientHome = () => {
 
   const handleEndSession = async () => {
     try {
-      await axios.post('http://localhost:8080/conversation/end', {}, {
-        // TODO: what are thooooose
-        params: new URLSearchParams({
-          patient: 'demo',
-          practitioner: 'demo',
-        }) 
-      });
-      navigate('/')
+      await axios.post(
+        `${apiUrl}/conversation/end`,
+        {},
+        {
+          // TODO: what are thooooose
+          params: new URLSearchParams({
+            patient: "demo",
+            practitioner: "demo",
+          }),
+        }
+      );
+      navigate("/");
     } catch (error) {
-      console.error('Error ending conversation:', error);
+      console.error("Error ending conversation:", error);
     }
   };
 
@@ -76,7 +80,8 @@ const PatientHome = () => {
                 </div>
                 <button
                   onClick={handleEndSession}
-                  className='flex items-center gap-2 btn btn-active btn-glass'>
+                  className="flex items-center gap-2 btn btn-active btn-glass"
+                >
                   Done for the day?
                   <LogOut size={18} />
                 </button>
@@ -97,7 +102,9 @@ const PatientHome = () => {
                 <button className="btn btn-neutral">Prompt</button>
               </form>
             </div>
-            <div className="w-1/3 right-column border-l-[1px]">
+            <div className="border-l-[1px] -my-2"></div>
+            <div className="w-1/3 h-full flex flex-col gap-4 justify-center items-center">
+              <h3 className="text-lg ml-3">Exercises</h3>
               <Exercises />
             </div>
           </div>

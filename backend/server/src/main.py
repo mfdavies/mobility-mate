@@ -53,7 +53,8 @@ mail = Mail(app)
 def send_link():
     try:
         data = request.get_json()
-        uid = data.get("uid")
+        practitionId = data.get("practitionId")
+        patientId = data.get("patientId")
         name = data.get("name")
         email = data.get("email")
 
@@ -61,7 +62,9 @@ def send_link():
         message = Message(
             subject=EMAIL_SUBJECT,
             recipients=[email],
-            body=EMAIL_BODY_TEMPLATE.format(name=name, uid=uid),
+            body=EMAIL_BODY_TEMPLATE.format(
+                name=name, practitionId=practitionId, patientId=patientId
+            ),
         )
         mail.send(message)
 

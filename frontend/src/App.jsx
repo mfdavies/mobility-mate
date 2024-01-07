@@ -11,7 +11,10 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/patient/:patientID" element={<PatientHome />} />
+        <Route
+          path="/:practitionerID/patient/:patientID"
+          element={<PatientHome />}
+        />
         <Route
           path="/practitioner/dashboard"
           element={<PractitionerDashboard />}

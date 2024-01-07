@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import apiUrl from '../../../config';
-import gsap from 'gsap';
-import React, { Suspense } from 'react';
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import apiUrl from "../../../config";
+import gsap from "gsap";
+import React, { Suspense } from "react";
 
-const Spline = React.lazy(() => import('@splinetool/react-spline'));
+const Spline = React.lazy(() => import("@splinetool/react-spline"));
 
 const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
   const sphere = useRef();
@@ -21,26 +21,26 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       recognition.continuous = true;
       recognition.interimResults = true;
 
-      let accumulatedTranscript = '';
+      let accumulatedTranscript = "";
 
       recognition.onresult = (event) => {
-        accumulatedTranscript = '';
+        accumulatedTranscript = "";
         for (let i = 0; i < event.results.length; i++) {
-          accumulatedTranscript += event.results[i][0].transcript.trim() + ' ';
+          accumulatedTranscript += event.results[i][0].transcript.trim() + " ";
         }
         updateUserMessage(accumulatedTranscript);
       };
 
       setSpeechRecognition(recognition);
     } else {
-      console.warn('Speech recognition not supported in this browser.');
+      console.warn("Speech recognition not supported in this browser.");
     }
   }, [updateUserMessage]);
 
   const startRecording = async () => {
     const queryParams = new URLSearchParams({
-      patient: 'demo',
-      practitioner: 'demo',
+      patient: "demo",
+      practitioner: "demo",
     });
 
     // Start recording audio
@@ -57,9 +57,9 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
     recorder.onstop = async () => {
       updateGptResponse(null);
       // Process and send the audio data to the server for transcription
-      const audioBlob = new Blob(chunks, { type: 'audio/wav' });
+      const audioBlob = new Blob(chunks, { type: "audio/wav" });
       const formData = new FormData();
-      formData.append('audioFile', audioBlob, 'recorded_audio.wav');
+      formData.append("audioFile", audioBlob, "recorded_audio.wav");
 
       const response = await axios.post(
         `${apiUrl}/conversation/send_message?${queryParams.toString()}`,
@@ -86,7 +86,7 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
 
   function onLoad(spline) {
     spline.setZoom(0.1);
-    const obj = spline.findObjectById('f5f3b334-53b6-4337-8497-c6815ba02c98');
+    const obj = spline.findObjectById("f5f3b334-53b6-4337-8497-c6815ba02c98");
     sphere.current = obj;
   }
 
@@ -98,7 +98,7 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       x: 1.5,
       y: 1.5,
       z: 1.5,
-      ease: 'power3.out',
+      ease: "power3.out",
     });
   };
 
@@ -109,7 +109,7 @@ const VoiceAI = ({ updateUserMessage, updateGptResponse }) => {
       x: 1,
       y: 1,
       z: 1,
-      ease: 'power3.out',
+      ease: "power3.out",
     });
   };
 
