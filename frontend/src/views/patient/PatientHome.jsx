@@ -1,19 +1,19 @@
-import Navbar from "./components/Navbar";
-import Exercises from "./components/Exercises";
-import "./styles.css";
-import { useState, useEffect, useCallback } from "react";
-import VoiceAI from "./components/VoiceAI";
-import { db, getCurrentUser } from "../../../firebaseConfig";
-import axios from "axios";
-import Skeleton from "./components/Skeleton";
-import apiUrl from "../../config";
-import { LogOut } from "lucide-react";
+import Navbar from './components/Navbar';
+import Exercises from './components/Exercises';
+import './styles.css';
+import { useState, useEffect, useCallback } from 'react';
+import VoiceAI from './components/VoiceAI';
+import { db, getCurrentUser } from '../../../firebaseConfig';
+import axios from 'axios';
+import Skeleton from './components/Skeleton';
+import apiUrl from '../../config';
+import { LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PatientHome = () => {
   const navigate = useNavigate();
-  const {patientID, practitionerID} = useParams();
+  const { patientID, practitionerID } = useParams();
   const [patient, setPatient] = useState(null);
   const [convo, setConvo] = useState({
     user: null,
@@ -30,18 +30,18 @@ const PatientHome = () => {
 
       // Fetch patient details
       const patientRef = db
-        .collection("practitioners")
+        .collection('practitioners')
         .doc(currentUser.uid)
-        .collection("patients")
+        .collection('patients')
         .doc(patientID);
 
       const unsubscribePatient = patientRef.onSnapshot((doc) => {
         if (doc.exists) {
           const patientData = doc.data();
           setPatient(patientData);
-          console.log(patient)
+          console.log(patient);
         } else {
-          console.error("Patient not found");
+          console.error('Patient not found');
         }
       });
 
@@ -78,9 +78,9 @@ const PatientHome = () => {
         return prevConvo;
       });
     } catch (error) {
-      console.error("Error fetching conversation start:", error);
+      console.error('Error fetching conversation start:', error);
     }
-    setUserInput("");
+    setUserInput('');
   };
 
   const updateUserMessage = useCallback((newMessage) => {
@@ -100,11 +100,10 @@ const PatientHome = () => {
   //     setPractitionerId(params.practitionerID);
   //   }
   //   console.log(patientID, practitionerID)
-  // }, [params.patientID, params.practitionerID]); 
+  // }, [params.patientID, params.practitionerID]);
 
   useEffect(() => {
     const startConversation = async () => {
-      console.log(patientID, practitionerID)
       const queryParams = new URLSearchParams({
         patient: patientID,
         practitioner: practitionerID,
@@ -120,12 +119,12 @@ const PatientHome = () => {
           return prevConvo;
         });
       } catch (error) {
-        console.error("Error fetching conversation start:", error);
+        console.error('Error fetching conversation start:', error);
       }
 
       try {
         const response = await axios.get(
-          `${apiUrl}/exercise/get_all?${queryParams.toString()}`,
+          `${apiUrl}/exercise/get_all?${queryParams.toString()}`
         );
         console.log(response.data.exercises);
         setExercises(response.data.exercises);
@@ -149,26 +148,20 @@ const PatientHome = () => {
           }),
         }
       );
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.error("Error ending conversation:", error);
+      console.error('Error ending conversation:', error);
     }
   };
 
   return (
     <div className="outer-frame text-dark-teal  ">
-      <div className="inner-frame flex flex-col h-full p-6">
-        {/* <Navbar /> */}
+      <div className="inner-frame flex flex-col h-full overflow-hidden">
+        <Navbar patient={patient} />
         <main className="flex-grow p-6 overflow-hidden">
           <div className="flex h-full gap-12">
-            <div className="w-2/3 flex flex-col justify-between h-full left-column">
+            <div className="w-1/3 flex flex-col justify-between h-full left-column">
               <header className="flex justify-between items-center">
-                <div>
-                  <h1 className="text-4xl font-medium">Welcome Back</h1>
-                  <div className="text-2xl">
-                  {patient && patient.name ? patient.name : ''}
-                  </div>
-                </div>
                 <button
                   onClick={handleEndSession}
                   className="flex items-center gap-2 btn btn-active btn-glass"
@@ -178,7 +171,7 @@ const PatientHome = () => {
                 </button>
               </header>
               {/* <Conversation messages={messages} /> */}
-              <div className="flex flex-col gap-4 w-3/4">
+              <div className="flex flex-col gap-4">
                 <p className="text-base">{convo.user}</p>
                 <div className="text-xl font-medium">
                   {convo.gpt !== null ? convo.gpt : <Skeleton />}
@@ -195,21 +188,20 @@ const PatientHome = () => {
                 <button className="btn btn-neutral">Prompt</button>
               </form>
             </div>
-            <div className="border-l-[1px] -my-2"></div>
+            <div className="w-1/3 h-full flex flex-col justify-center items-center">
+              <VoiceAI
+                patientID={patientID}
+                practitionerID={practitionerID}
+                updateUserMessage={updateUserMessage}
+                updateGptResponse={updateGptResponse}
+              />
+            </div>
             <div className="w-1/3 h-full flex flex-col gap-4 justify-center items-center">
               <h3 className="text-lg ml-3">Exercises</h3>
               <Exercises exercises={exercises} />
             </div>
           </div>
         </main>
-        <div className="relative">
-          <VoiceAI
-            patientID={patientID}
-            practitionerID={practitionerID}
-            updateUserMessage={updateUserMessage}
-            updateGptResponse={updateGptResponse}
-          />
-        </div>
         {/* TODO: finish button that calls conversation/end */}
       </div>
     </div>

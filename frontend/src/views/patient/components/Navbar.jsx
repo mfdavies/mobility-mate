@@ -1,8 +1,16 @@
-const Navbar = () => {
+import logo from '../../../assets/mobilityMate-NoBg-lg.png';
+
+const Navbar = ({ patient }) => {
   return (
-    <div className="navbar bg-base-100 border-b-[1px]">
+    <div className="navbar bg-base-100 border-b-[2px] px-6">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">MobilityMate</a>
+        <a className="text-xl font-medium">
+          Welcome Back! <span className="font-light">{patient && patient.name ? patient.name : ''}</span>
+        </a>
+      </div>
+      <div className="flex-1 mr-44">
+        <img src={logo} alt="MobilityMate Logo" className="h-16" />
+        <a className="font-medium text-xl">MobilityMate</a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
