@@ -9,7 +9,7 @@ const Landing = () => {
           <img
             src={landingImage}
             alt="Welcome"
-            className="object-cover h-[110%] w-[100%] mt-[-3em]"
+            className="object-cover h-[50%] w-[100%] mt-[-3em]"
           />
         </div>
 
@@ -17,11 +17,9 @@ const Landing = () => {
 
         <div className="w-2/5 p-12 rounded-xl mt-40">
           <header className="mb-12">
-            <div className="flex justify-center items-center">
-              <img src={logo} alt="MobilityMate Logo" className="h-20 mr-3" />
-              <span className="text-3xl font-bold text-gray-700">
-                MobilityMate
-              </span>
+            <div className="flex justify-center items-center text-3xl font-bold text-gray-700">
+              <img src={logo} alt="MobilityMate Logo" className="h-12 mr-3" />
+              MobilityMate
             </div>
           </header>
 
