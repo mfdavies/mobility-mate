@@ -1,7 +1,7 @@
 import Navbar from './components/Navbar';
 import Exercises from './components/Exercises';
 import './styles.css';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import VoiceAI from './components/VoiceAI';
 import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
@@ -15,12 +15,10 @@ const PatientHome = () => {
   const navigate = useNavigate();
   const { patientID, practitionerID } = useParams();
   const [patient, setPatient] = useState(null);
-  const [convo, setConvo] = useState({
-    user: null,
-    gpt: null,
-  });
+  const [convo, setConvo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [exercises, setExercises] = useState([]);
+  console.log('new line lol', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -57,7 +55,6 @@ const PatientHome = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setConvo((prevConvo) => ({ ...prevConvo, gpt: null }));
     updateUserMessage(userInput);
     const queryParams = new URLSearchParams({
       patient: patientID,
@@ -68,25 +65,41 @@ const PatientHome = () => {
         `${apiUrl}/conversation/send_text_message?${queryParams.toString()}`,
         { message: userInput }
       );
-      console.log(response.data.reply);
-      setConvo((prevConvo) => {
-        if (prevConvo.gpt === null) {
-          return { ...prevConvo, gpt: response.data.reply };
-        }
-        return prevConvo;
-      });
+      updateGptResponse(response.data.reply);
+      setUserInput('');
     } catch (error) {
       console.error('Error fetching conversation start:', error);
     }
-    setUserInput('');
   };
 
   const updateUserMessage = useCallback((newMessage) => {
-    setConvo((prevConvo) => ({ ...prevConvo, user: newMessage }));
+    if (!newMessage) {
+      return;
+    }
+    setConvo((prevConvo) => {
+      const lastMessage = prevConvo[prevConvo.length - 1];
+      if (!lastMessage || lastMessage.type === 'gpt') {
+        return [...prevConvo, { type: 'user', text: newMessage }];
+      }
+      return prevConvo.map((message, index) =>
+        index === prevConvo.length - 1
+          ? { ...message, text: newMessage }
+          : message
+      );
+    });
   }, []);
 
   const updateGptResponse = useCallback((newResponse) => {
-    setConvo((prevConvo) => ({ ...prevConvo, gpt: newResponse }));
+    if (!newResponse) {
+      return;
+    }
+    setConvo((prevConvo) => {
+      const lastMessage = prevConvo[prevConvo.length - 1];
+      if (!lastMessage || lastMessage.type === 'user') {
+        return [...prevConvo, { type: 'gpt', text: newResponse }];
+      }
+      return prevConvo;
+    });
   }, []);
 
   useEffect(() => {
@@ -99,12 +112,7 @@ const PatientHome = () => {
         const response = await axios.get(
           `${apiUrl}/conversation/start?${queryParams.toString()}`
         );
-        setConvo((prevConvo) => {
-          if (prevConvo.gpt === null) {
-            return { ...prevConvo, gpt: response.data.reply };
-          }
-          return prevConvo;
-        });
+        updateGptResponse(response.data.reply);
       } catch (error) {
         console.error('Error fetching conversation start:', error);
       }
@@ -140,25 +148,38 @@ const PatientHome = () => {
     }
   };
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [convo]);
+
   return (
     <div className="outer-frame text-dark-teal  ">
       <div className="inner-frame flex flex-col h-full overflow-hidden">
         <Navbar patient={patient} />
         <main className="flex-grow p-6 overflow-hidden">
           <div className="flex h-full">
-            <div className="w-1/4 flex flex-col justify-between h-full left-column">
+            <div className="w-1/4 flex flex-col justify-between gap-6 h-full left-column">
               {/* <Conversation messages={messages} /> */}
-              <div className="flex flex-col gap-2">
-                <p className="text-base border-2 p-2 rounded-box">
-                  {/* <span className="underline">Carl</span>
-                  <br /> */}
-                  {convo.user}
-                </p>
-                <div className="text-lg font-medium border-2 p-2 rounded-box">
-                  {/* <span className="underline">MobilityMate</span>
-                  <br /> */}
-                  {convo.gpt !== null ? convo.gpt : <Skeleton />}
-                </div>
+              <div className="gap-2 overflow-y-scroll flex flex-col">
+                {convo.map((message, index) => (
+                  <p
+                    key={index}
+                    className={`text-base border-[1px] p-2 rounded-box ${
+                      message.type === 'gpt'
+                        ? 'text-lg font-medium'
+                        : 'text-light'
+                    }`}
+                  >
+                    {message.text}
+                  </p>
+                ))}
+                <div ref={messagesEndRef} />
               </div>
               <form className="flex items-center" onSubmit={handleFormSubmit}>
                 <input
@@ -197,9 +218,9 @@ const PatientHome = () => {
                   </button>
                 </h3>
                 <div>Your progress for today</div>
-                <div className='flex items-center text-base gap-4'>
+                <div className="flex items-center text-base gap-4">
                   <progress className="progress w-56" value="75" max="100" />
-                  <p className='mb-1 text-sm'>75%</p>
+                  <p className="mb-1 text-sm">75%</p>
                 </div>
               </div>
             </div>

@@ -10,7 +10,7 @@ import ExerciseCard from './ExerciseCard';
 const Exercises = ({ exercises }) => {
   return (
     <div className='shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-box h-full w-full'>
-      <h3 className="text-lg font-medium text-left w-full px-4 py-2 border-b-2">Assigned Exercises</h3>
+      <h3 className="text-lg font-medium text-left w-full px-4 py-2 border-b-[1px]">Assigned Exercises</h3>
       <div className="h-full w-full carousel carousel-vertical rounded-box">
         {exercises.map((exercise, index) => (
           <div key={index} className="carousel-item h-full p-0">
