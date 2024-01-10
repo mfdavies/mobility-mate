@@ -17,6 +17,7 @@ const PatientHome = () => {
   const [convo, setConvo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [exercises, setExercises] = useState([]);
+  console.log('new line lol', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
