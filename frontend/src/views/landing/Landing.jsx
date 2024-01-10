@@ -1,5 +1,5 @@
-import landingImage from "../../assets/landingDoodle.jpeg";
-import logo from "../../assets/mobilityMate-NoBg-lg.png";
+import landingImage from "/images/landingDoodle.jpeg";
+import logo from "/images/mobilityMate-NoBg-lg.png";
 
 const Landing = () => {
   return (

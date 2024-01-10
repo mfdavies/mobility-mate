@@ -1,5 +1,5 @@
-import logo from "../../assets/mobilityMate-NoBg-lg.png";
-import support from "../../assets/signupPractitioner.jpeg";
+import logo from "/images/mobilityMate-NoBg-lg.png";
+import support from "/images/signupPractitioner.jpeg";
 import { db, auth } from "../../../firebaseConfig";
 
 const PractitionerSignUp = () => {

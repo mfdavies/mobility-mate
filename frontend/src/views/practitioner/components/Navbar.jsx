@@ -1,6 +1,6 @@
 import { auth } from "../../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/mobilityMate-NoBg-lg.png";
+import logo from "/images/mobilityMate-NoBg-lg.png";
 
 const Navbar = () => {
   const navigate = useNavigate();

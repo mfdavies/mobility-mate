@@ -1,6 +1,6 @@
-import logo from "../../assets/mobilityMate-NoBg-lg.png";
-import support from "../../assets/loginPractitioner.jpeg";
-import { auth } from '../../../firebaseConfig';
+import logo from "/images/mobilityMate-NoBg-lg.png";
+import support from "/images/loginPractitioner.jpeg";
+import { auth } from "../../../firebaseConfig";
 
 const PractitionerLogin = () => {
   const handleLogin = async (event) => {
@@ -89,7 +89,11 @@ const PractitionerLogin = () => {
         <div className="w-px mt-40 mb-40 bg-gray-200"></div>
 
         <div className="w-1/2 h-full flex justify-center items-center">
-          <img src={support} alt="Support For All" className="object-cover h-[110%] w-[100%] mt-[-3em]" />
+          <img
+            src={support}
+            alt="Support For All"
+            className="object-cover h-[110%] w-[100%] mt-[-3em]"
+          />
         </div>
       </div>
     </div>
