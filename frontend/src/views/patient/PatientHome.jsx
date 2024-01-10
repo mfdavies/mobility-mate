@@ -159,8 +159,8 @@ const PatientHome = () => {
       <div className="inner-frame flex flex-col h-full overflow-hidden">
         <Navbar patient={patient} />
         <main className="flex-grow p-6 overflow-hidden">
-          <div className="flex h-full gap-12">
-            <div className="w-1/3 flex flex-col justify-between h-full left-column">
+          <div className="flex h-full">
+            <div className="w-1/4 flex flex-col justify-between h-full left-column">
               <header className="flex justify-between items-center">
                 <button
                   onClick={handleEndSession}
@@ -185,10 +185,10 @@ const PatientHome = () => {
                   value={userInput}
                   onChange={handleInputChange}
                 />
-                <button className="btn btn-neutral">Prompt</button>
+                <button className="btn bg-dark-teal text-white">Prompt</button>
               </form>
             </div>
-            <div className="w-1/3 h-full flex flex-col justify-center items-center">
+            <div className="w-2/4 h-full flex flex-col justify-evenly items-center">
               <VoiceAI
                 patientID={patientID}
                 practitionerID={practitionerID}
@@ -196,8 +196,7 @@ const PatientHome = () => {
                 updateGptResponse={updateGptResponse}
               />
             </div>
-            <div className="w-1/3 h-full flex flex-col gap-4 justify-center items-center">
-              <h3 className="text-lg ml-3">Exercises</h3>
+            <div className="w-1/4 h-full flex flex-col gap-4 items-center">
               <Exercises exercises={exercises} />
             </div>
           </div>

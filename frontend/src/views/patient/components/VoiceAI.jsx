@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import apiUrl from '../../../config';
 import gsap from 'gsap';
+import { Mic, AudioLines } from 'lucide-react';
 // import React, { Suspense } from 'react';
 
 // const Spline = React.lazy(() => import('@splinetool/react-spline'));
@@ -50,7 +51,7 @@ const VoiceAI = ({
       practitioner: practitionerID,
     });
 
-// Start recording audio
+    // Start recording audio
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const recorder = new MediaRecorder(stream);
     const chunks = [];
@@ -64,9 +65,9 @@ const VoiceAI = ({
     recorder.onstop = async () => {
       updateGptResponse(null);
       // Process and send the audio data to the server for transcription
-      const audioBlob = new Blob(chunks, { type: "audio/wav" });
+      const audioBlob = new Blob(chunks, { type: 'audio/wav' });
       const formData = new FormData();
-      formData.append("audioFile", audioBlob, "recorded_audio.wav");
+      formData.append('audioFile', audioBlob, 'recorded_audio.wav');
 
       const response = await axios.post(
         `${apiUrl}/conversation/send_message?${queryParams.toString()}`,
@@ -104,9 +105,9 @@ const VoiceAI = ({
     console.log(sphere.current.scale);
     gsap.to(sphere.current.scale, {
       duration: 3,
-      x: 1.25,
-      y: 1.25,
-      z: 1.25,
+      x: 1.2,
+      y: 1.2,
+      z: 1.2,
       ease: 'power3.out',
     });
   };
@@ -123,24 +124,36 @@ const VoiceAI = ({
   };
 
   return (
-    <button
-      className="h-full"
-      onClick={isRecording ? triggerEnd : triggerStart}
-    >
-      {!isModelLoaded && <div className="skeleton h-96 w-96"></div>}
+    <>
+      {!isModelLoaded && <div className="skeleton h-[480px] w-[480px]"></div>}
       <div
         className={`${
           isModelLoaded ? 'visible' : 'hidden'
-        } bg-transparent w-96 h-96`}
+        } bg-transparent h-[480px] w-[480px]`}
       >
         <Spline
-          className="bg-transparent w-96 h-96"
+          className="bg-transparent"
           onLoad={onLoad}
           // scene="https://prod.spline.design/Omn4EqepHAUv5XKP/scene.splinecode"
           scene="https://prod.spline.design/9r7siidIpuP9UpJY/scene.splinecode"
         />
       </div>
-    </button>
+      <button
+        className="flex btn btn-glass w-44"
+        onClick={isRecording ? triggerEnd : triggerStart}
+      >
+        {!isRecording && (
+          <>
+            <Mic /> Begin talking...
+          </>
+        )}
+        {isRecording && (
+          <>
+            <AudioLines /> Listening...
+          </>
+        )}
+      </button>
+    </>
   );
 };
 

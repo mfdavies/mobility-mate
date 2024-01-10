@@ -11,7 +11,7 @@ const ExerciseCard = ({ name, description, steps, image }) => {
   const stepsList = steps.split('\n');
 
   return (
-    <div className="card w-96 bg-base-100 border-[1px]">
+    <div className="card bg-base-100 border-2 shadow-none hover:">
       <figure className="">
         <img
           src={image}
