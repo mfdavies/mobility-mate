@@ -3,9 +3,6 @@ import axios from 'axios';
 import apiUrl from '../../../config';
 import gsap from 'gsap';
 import { Mic, AudioLines } from 'lucide-react';
-// import React, { Suspense } from 'react';
-
-// const Spline = React.lazy(() => import('@splinetool/react-spline'));
 import Spline from '@splinetool/react-spline';
 
 const VoiceAI = ({
@@ -125,11 +122,11 @@ const VoiceAI = ({
 
   return (
     <>
-      {!isModelLoaded && <div className="skeleton h-[480px] w-[480px]"></div>}
+      {!isModelLoaded && <div className="skeleton h-[500px] w-[500px]"></div>}
       <div
         className={`${
           isModelLoaded ? 'visible' : 'hidden'
-        } bg-transparent h-[480px] w-[480px]`}
+        } bg-transparent h-[500px] w-[500px]`}
       >
         <Spline
           className="bg-transparent"
@@ -144,12 +141,12 @@ const VoiceAI = ({
       >
         {!isRecording && (
           <>
-            <Mic /> Begin talking...
+            <Mic size={18} /> Begin talking...
           </>
         )}
         {isRecording && (
           <>
-            <AudioLines /> Listening...
+            <AudioLines size={18} /> Listening...
           </>
         )}
       </button>

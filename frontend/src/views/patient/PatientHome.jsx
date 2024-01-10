@@ -7,7 +7,7 @@ import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
 import Skeleton from './components/Skeleton';
 import apiUrl from '../../config';
-import { LogOut } from 'lucide-react';
+import { CheckCircle, Clock3, LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -20,8 +20,6 @@ const PatientHome = () => {
     gpt: null,
   });
   const [userInput, setUserInput] = useState('');
-  // const [patientID, setPatientId] = useState('');
-  // const [practitionerID, setPractitionerId] = useState('');
   const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
@@ -91,17 +89,6 @@ const PatientHome = () => {
     setConvo((prevConvo) => ({ ...prevConvo, gpt: newResponse }));
   }, []);
 
-  // useEffect(() => {
-  //   // Set the state variables from the path parameters
-  //   if (params.patientID) {
-  //     setPatientId(params.patientID);
-  //   }
-  //   if (params.practitionerID) {
-  //     setPractitionerId(params.practitionerID);
-  //   }
-  //   console.log(patientID, practitionerID)
-  // }, [params.patientID, params.practitionerID]);
-
   useEffect(() => {
     const startConversation = async () => {
       const queryParams = new URLSearchParams({
@@ -141,7 +128,6 @@ const PatientHome = () => {
         `${apiUrl}/conversation/end`,
         {},
         {
-          // TODO: what are thooooose
           params: new URLSearchParams({
             patient: patientID,
             practitioner: practitionerID,
@@ -161,26 +147,23 @@ const PatientHome = () => {
         <main className="flex-grow p-6 overflow-hidden">
           <div className="flex h-full">
             <div className="w-1/4 flex flex-col justify-between h-full left-column">
-              <header className="flex justify-between items-center">
-                <button
-                  onClick={handleEndSession}
-                  className="flex items-center gap-2 btn btn-active btn-glass"
-                >
-                  Done for the day?
-                  <LogOut size={18} />
-                </button>
-              </header>
               {/* <Conversation messages={messages} /> */}
-              <div className="flex flex-col gap-4">
-                <p className="text-base">{convo.user}</p>
-                <div className="text-xl font-medium">
+              <div className="flex flex-col gap-2">
+                <p className="text-base border-2 p-2 rounded-box">
+                  {/* <span className="underline">Carl</span>
+                  <br /> */}
+                  {convo.user}
+                </p>
+                <div className="text-lg font-medium border-2 p-2 rounded-box">
+                  {/* <span className="underline">MobilityMate</span>
+                  <br /> */}
                   {convo.gpt !== null ? convo.gpt : <Skeleton />}
                 </div>
               </div>
               <form className="flex items-center" onSubmit={handleFormSubmit}>
                 <input
                   type="text"
-                  placeholder="You can type here..."
+                  placeholder="You can also type here..."
                   className="input input-bordered w-full max-w-xs mr-2"
                   value={userInput}
                   onChange={handleInputChange}
@@ -197,7 +180,28 @@ const PatientHome = () => {
               />
             </div>
             <div className="w-1/4 h-full flex flex-col gap-4 items-center">
-              <Exercises exercises={exercises} />
+              {exercises.length > 0 ? (
+                <Exercises exercises={exercises} />
+              ) : (
+                <div className="skeleton h-full w-full"></div>
+              )}
+              <div className="flex flex-col justify-between shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-box h-1/4 w-full p-4 ">
+                <h3 className="flex items-center justify-between gap-1 text-lg font-medium text-left w-full">
+                  Daily Progress
+                  <button
+                    className="text-light-teal flex gap-2 items-center"
+                    onClick={handleEndSession}
+                  >
+                    Exit
+                    <LogOut size={16} />
+                  </button>
+                </h3>
+                <div>Your progress for today</div>
+                <div className='flex items-center text-base gap-4'>
+                  <progress className="progress w-56" value="75" max="100" />
+                  <p className='mb-1 text-sm'>75%</p>
+                </div>
+              </div>
             </div>
           </div>
         </main>

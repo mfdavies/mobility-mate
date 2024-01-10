@@ -4,8 +4,8 @@ const Navbar = ({ patient }) => {
   return (
     <div className="navbar h-16 bg-base-100 border-b-2 px-6">
       <div className="flex-1">
-        <div className="text-xl font-medium flex gap-2">
-          Welcome Back! <span className="font-light">
+        <div className="text-xl font-bold flex gap-2">
+          Welcome Back! <span className="font-normal">
             {/* {patient && patient.name ? patient.name : ''} */}
             Carl
             </span>
