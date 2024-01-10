@@ -6,7 +6,7 @@ import VoiceAI from './components/VoiceAI';
 import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
 import apiUrl from '../../config';
-import { LogOut } from 'lucide-react';
+import { CheckCircle, Clock3, LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
