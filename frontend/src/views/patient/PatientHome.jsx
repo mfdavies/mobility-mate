@@ -5,9 +5,9 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import VoiceAI from './components/VoiceAI';
 import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
-import Skeleton from './components/Skeleton';
+import Typewriter from 'typewriter-effect';
 import apiUrl from '../../config';
-import { CheckCircle, Clock3, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -18,7 +18,6 @@ const PatientHome = () => {
   const [convo, setConvo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [exercises, setExercises] = useState([]);
-  console.log('new line lol', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -176,7 +175,14 @@ const PatientHome = () => {
                         : 'text-light'
                     }`}
                   >
-                    {message.text}
+                    <Typewriter
+                      options={{
+                        strings: message.text,
+                        autoStart: true,
+                        delay: 0,
+                        cursor: "",
+                      }}
+                    />
                   </p>
                 ))}
                 <div ref={messagesEndRef} />

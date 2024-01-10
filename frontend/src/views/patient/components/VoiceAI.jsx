@@ -102,9 +102,9 @@ const VoiceAI = ({
     console.log(sphere.current.scale);
     gsap.to(sphere.current.scale, {
       duration: 3,
-      x: 1.2,
-      y: 1.2,
-      z: 1.2,
+      x: 1.3,
+      y: 1.3,
+      z: 1.3,
       ease: 'power3.out',
     });
   };
@@ -146,7 +146,7 @@ const VoiceAI = ({
         )}
         {isRecording && (
           <>
-            <AudioLines size={18} /> Listening...
+            <span className="loading loading-ring loading-sm"></span>Listening...
           </>
         )}
       </button>
