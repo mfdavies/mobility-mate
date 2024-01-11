@@ -4,7 +4,7 @@ import { MoveLeft, MoveRight, Dot } from 'lucide-react';
 const ExerciseSummary = ({ image, title, description }) => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="h-56 w-full">
+      <div className="h-44 w-full">
         <img
           className="h-full w-full object-contain border-2 rounded-box "
           src={image}
@@ -22,7 +22,7 @@ const ExerciseSummary = ({ image, title, description }) => {
 const ExerciseView = ({ image, steps }) => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="h-56 w-full">
+      <div className="h-44 w-full">
         <img
           className="h-full w-full object-contain border-2 rounded-box "
           src={image}
@@ -30,7 +30,8 @@ const ExerciseView = ({ image, steps }) => {
         />
       </div>
       <div className="flex flex-col gap-2 items-start">
-        <ul className='overflow-scroll line-clamp-4'>
+        <div className="font-medium">Steps</div>
+        <ul className='overflow-y-scroll line-clamp-3'>
           {steps.split('\n').map((step, index) => (
             <li key={index}>{step}</li>
           ))}
@@ -48,12 +49,14 @@ export default function Exercises({ exercises }) {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? exercises.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
+    setShowDetails(false);
   };
 
   const nextSlide = () => {
     const isLastSlide = currentIndex === exercises.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
+    setShowDetails(false);
   };
 
   const goToSlide = (slideIndex) => {
