@@ -164,7 +164,7 @@ const PatientHome = () => {
           <div className="flex h-full">
             <div className="w-1/4 flex flex-col justify-between gap-6 h-full left-column">
               {/* <Conversation messages={messages} /> */}
-              <div className="gap-2 flex flex-col scroll-smooth">
+              <div className="gap-2 flex flex-col max-h-screen overflow-y-scroll scroll-smooth">
                 {convo.map((message, index) => (
                   <p
                     key={index}
