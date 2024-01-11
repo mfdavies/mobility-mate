@@ -1,110 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 // import ExerciseCard from "./ExerciseCard";
 // import PropTypes from 'prop-types';
-import '../styles.css';
-import glutesImage from '../../../assets/raises.webp';
-import circleImage from '../../../assets/circs.png';
-import squatImage from '../../../assets/squat.png';
-import quartSquatImage from '../../../assets/quartSquat.png';
-import singleLegGluteImage from '../../../assets/singleLegGlute.png';
-import ExerciseCard from './ExerciseCard';
+import "../styles.css";
+import ExerciseCard from "./ExerciseCard";
 
-const Exercises = ({exercises}) => {
+const Exercises = ({ exercises }) => {
   // const [expandedCard, setExpandedCard] = useState(null);
-  // const exercises = [
-  //   {
-  //     name: 'Arm Raises',
-  //     description: 'Simple arm raising exercises to improve mobility.',
-  //     image: '',
-  //   },
-  //   {
-  //     name: 'Arm Raises',
-  //     description: 'Simple arm raising exercises to improve mobility.',
-  //     image: '',
-  //   },
-  // ];
   const [selectedCard, setSelectedCard] = useState(null);
-  console.log(exercises)
-
-  const cards = [
-    {
-      id: 1,
-      title: 'Glutes',
-      description: 'Glute Bridges good for glutes',
-      imageUrl: glutesImage,
-      instructions: [
-        'Step 1 for Card 1',
-        'Step 2 for Card 1',
-        'Step 3 for Card 1',
-      ],
-    },
-    {
-      id: 2,
-      title: 'Circs',
-      description: 'Single Leg Circles good for glutes',
-      imageUrl: circleImage,
-      instructions: [
-        'Step 1 for Card 2',
-        'Step 2 for Card 2',
-        'Step 3 for Card 2',
-      ],
-    },
-    {
-      id: 3,
-      title: 'Squats',
-      description: 'Description for Card 3',
-      imageUrl: squatImage, // Placeholder image
-      instructions: [
-        'Step 1 for Card 3',
-        'Step 2 for Card 3',
-        'Step 3 for Card 3',
-      ],
-    },
-    {
-      id: 4,
-      title: 'Card 4',
-      description: 'Description for Card 4',
-      imageUrl: quartSquatImage, // Placeholder image
-      instructions: [
-        'Step 1 for Card 4',
-        'Step 2 for Card 4',
-        'Step 3 for Card 4',
-      ],
-    },
-    {
-      id: 5,
-      title: 'Card 5',
-      description: 'Description for Card 5',
-      imageUrl: singleLegGluteImage, // Placeholder image
-      instructions: [
-        'Step 1 for Card 5',
-        'Step 2 for Card 5',
-        'Step 3 for Card 5',
-      ],
-    },
-    {
-      id: 6,
-      title: 'Card 6',
-      description: 'Description for Card 5',
-      imageUrl: glutesImage, // Placeholder image
-      instructions: [
-        'Step 1 for Card 5',
-        'Step 2 for Card 5',
-        'Step 3 for Card 5',
-      ],
-    },
-    {
-      id: 7,
-      title: 'Card 7',
-      description: 'Description for Card 5',
-      imageUrl: glutesImage, // Placeholder image
-      instructions: [
-        'Step 1 for Card 5',
-        'Step 2 for Card 5',
-        'Step 3 for Card 5',
-      ],
-    },
-  ];
+  console.log(exercises);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);

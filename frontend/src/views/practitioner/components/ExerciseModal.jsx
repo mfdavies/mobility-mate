@@ -75,12 +75,12 @@ const ExerciseModal = () => {
 
   const handleClose = () => {
     setFormData(emptyForm);
-    document.getElementById("new_patient_modal").close();
+    document.getElementById("new_exercise_modal").close();
   };
 
   return (
     <dialog
-      id="new_patient_modal"
+      id="new_exercise_modal"
       className="modal modal-bottom sm:modal-middle"
     >
       <div className="modal-box">

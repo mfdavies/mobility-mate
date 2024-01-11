@@ -1,6 +1,6 @@
 import { auth } from "../../../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../assets/mobilityMate-NoBg-lg.png";
+import logo from "/images/mobilityMate-NoBg-lg.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,10 +21,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-gray-50 ml-1">
-      <div className="flex-1 h-8">
-        <img className="w-16" src={logo} alt="MobilityMate Logo" />
-        <a className="btn btn-ghost text-xl p-0">MobilityMate</a>
+    <div className="navbar bg-gray-50 px-4">
+      <div className="flex-1 h-8 items-center">
+        <img className="w-7" src={logo} alt="MobilityMate Logo" />
+        <a className="btn btn-ghost text-xl p-0 ml-2">MobilityMate</a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
