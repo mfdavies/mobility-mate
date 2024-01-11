@@ -5,7 +5,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import VoiceAI from './components/VoiceAI';
 import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
-import Typewriter from 'typewriter-effect';
 import apiUrl from '../../config';
 import { LogOut } from 'lucide-react';
 import './styles.css';
@@ -165,24 +164,15 @@ const PatientHome = () => {
           <div className="flex h-full">
             <div className="w-1/4 flex flex-col justify-between gap-6 h-full left-column">
               {/* <Conversation messages={messages} /> */}
-              <div className="gap-2 overflow-y-scroll flex flex-col">
+              <div className="gap-2 flex flex-col scroll-smooth">
                 {convo.map((message, index) => (
                   <p
                     key={index}
-                    className={`text-base border-[1px] p-2 rounded-box ${
-                      message.type === 'gpt'
-                        ? 'text-lg font-medium'
-                        : 'text-light'
+                    className={`text-lg border-[1px] p-2 rounded-box text-dark-teal ${
+                      message.type === 'gpt' ? 'font-medium' : 'font-light'
                     }`}
                   >
-                    <Typewriter
-                      options={{
-                        strings: message.text,
-                        autoStart: true,
-                        delay: 0,
-                        cursor: "",
-                      }}
-                    />
+                    {message.text}
                   </p>
                 ))}
                 <div ref={messagesEndRef} />
@@ -195,10 +185,12 @@ const PatientHome = () => {
                   value={userInput}
                   onChange={handleInputChange}
                 />
-                <button className="btn bg-dark-teal text-white">Prompt</button>
+                <button className="btn bg-dark-teal text-white">
+                  Prompt
+                </button>
               </form>
             </div>
-            <div className="w-2/4 h-full flex flex-col justify-evenly items-center">
+            <div className="w-2/4 h-full flex flex-col justify-between items-center">
               <VoiceAI
                 patientID={patientID}
                 practitionerID={practitionerID}
@@ -206,21 +198,22 @@ const PatientHome = () => {
                 updateGptResponse={updateGptResponse}
               />
             </div>
-            <div className="w-1/4 h-full flex flex-col gap-4 items-center">
+            <div className="w-1/4 h-full flex flex-col items-center ">
               {exercises.length > 0 ? (
-                <Exercises exercises={exercises} />
+                <div className="h-4/5 overflow-x-visible w-full m-auto flex flex-col rounded-box">
+                  <Exercises exercises={exercises} />
+                </div>
               ) : (
-                <div className="skeleton h-full w-full"></div>
+                <div className="skeleton h-full w-full mb-6"></div>
               )}
-              <div className="flex flex-col justify-between shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-box h-1/4 w-full p-4 ">
+              <div className="h-1/5 flex flex-col justify-between shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-box w-full p-4">
                 <h3 className="flex items-center justify-between gap-1 text-lg font-medium text-left w-full">
-                  Daily Progress
+                  Done for the day?
                   <button
                     className="text-light-teal flex gap-2 items-center"
                     onClick={handleEndSession}
                   >
-                    Exit
-                    <LogOut size={16} />
+                    <LogOut size={20} />
                   </button>
                 </h3>
                 <div>Your progress for today</div>

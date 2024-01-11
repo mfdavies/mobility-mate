@@ -129,7 +129,7 @@ const VoiceAI = ({
         } bg-transparent h-[500px] w-[500px]`}
       >
         <Spline
-          className="bg-transparent"
+          className="bg-transparent mt-3"
           onLoad={onLoad}
           // scene="https://prod.spline.design/Omn4EqepHAUv5XKP/scene.splinecode"
           scene="https://prod.spline.design/9r7siidIpuP9UpJY/scene.splinecode"
