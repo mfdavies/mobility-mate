@@ -3,7 +3,7 @@ import logo from '../../../assets/mobilityMate-NoBg-lg.png';
 const Navbar = ({ patient }) => {
   return (
     <div className="navbar h-16 bg-base-100 border-b-2 px-6">
-      <div className="flex-1">
+      <div className="w-1/4 flex justify-start">
         <div className="text-xl font-bold flex gap-2">
           Welcome Back! <span className="font-light">
             {/* {patient && patient.name ? patient.name : ''} */}
@@ -11,11 +11,11 @@ const Navbar = ({ patient }) => {
             </span>
         </div>
       </div>
-      <div className="flex-1 mr-44">
-        <img src={logo} alt="MobilityMate Logo" className="h-16" />
+      <div className="w-2/4 flex gap-2 justify-center">
+        <img src={logo} alt="MobilityMate Logo" className="h-8" />
         <a className="font-medium text-xl">MobilityMate</a>
       </div>
-      <div className="flex-none">
+      <div className="w-1/4 flex justify-end">
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
