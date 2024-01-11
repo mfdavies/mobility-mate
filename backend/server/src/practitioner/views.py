@@ -5,15 +5,15 @@ from firebase_admin import firestore
 import tempfile
 import os
 
-exercise_blueprint = Blueprint("exercise", __name__)
+practitioner_blueprint = Blueprint("practitioner", __name__)
 db = firestore.client()
 users_ref = db.collection("practitioners")
 
 session = {}
 
-
-@exercise_blueprint.route('/get_all', methods=['GET'])
-def get_all():
+# Gets all exercises for a practitioner
+@practitioner_blueprint.route('/all_exercises', methods=['GET'])
+def all_exercises():
     try:
         practitioner = request.args.get("practitioner")
         exercises = users_ref.document(practitioner).collection("exercises").get()
@@ -28,8 +28,9 @@ def get_all():
     except Exception as e:
             return jsonify({"error": str(e)}), 400
 
-@exercise_blueprint.route('/get', methods=['GET'])
-def get():
+# Gets a spefic exercise for a practitioner
+@practitioner_blueprint.route('/exercise', methods=['GET'])
+def exercise():
     try:
         practitioner = request.args.get("practitioner")
         exercise_id = request.args.get("exercise")
