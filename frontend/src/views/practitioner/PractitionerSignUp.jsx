@@ -22,6 +22,15 @@ const PractitionerSignUp = () => {
     }
 
     try {
+      // Check if email already exists in Firestore
+      const practitionersRef = db.collection("practitioners");
+      const existingEmail = await practitionersRef.where("email", "==", email.value).get();
+
+      if (!existingEmail.empty) {
+        alert("This email is already in use.");
+        return;
+      }
+
       // Create user for authentication
       const userCredential = await auth.createUserWithEmailAndPassword(
         email.value,
@@ -39,7 +48,7 @@ const PractitionerSignUp = () => {
       window.location.href = "/practitioner/dashboard";
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        alert("This email is already in use.");
+        alert("This email is already in use...");
       } else {
         console.error("Error: ", error);
         alert(error.message);
