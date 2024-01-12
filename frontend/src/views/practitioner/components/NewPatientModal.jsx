@@ -20,19 +20,42 @@ const NewPatientModal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const { name, email, age } = formData;
+
+    // Validation
+    if (!name || !email || !age) {
+      alert("All fields are required.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (isNaN(age) || age <= 0) {
+      alert("Please enter a valid age.");
+      return;
+    }
+
     try {
-      // Add the new patient data to Firestore
+      // Check if patient email already exists in Firestore
       const currentUser = await getCurrentUser();
-      const patientDoc = await db
-        .collection(`practitioners/${currentUser.uid}/patients`)
-        .add(formData);
+      const patientsRef = db.collection(`practitioners/${currentUser.uid}/patients`);
+      const existingPatient = await patientsRef.where("email", "==", email).get();
+
+      if (!existingPatient.empty) {
+        alert("A patient with this email already exists.");
+        return;
+      }
+
+      // Add the new patient data to Firestore
+      const patientDoc = await patientsRef.add(formData);
 
       // Send patient an email access link
       await axios.post(`${apiUrl}/patient/send-link`, {
         practitionId: currentUser.uid,
         patientId: patientDoc.id,
-        name: formData.name,
-        email: formData.email,
+        name,
+        email,
       });
 
       handleClose();
