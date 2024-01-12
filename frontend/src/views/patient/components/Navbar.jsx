@@ -1,4 +1,4 @@
-import logo from '../../../assets/mobilityMate-NoBg-lg.png';
+import logo from '/images/mobilityMate-NoBg-lg.png';
 
 const Navbar = ({ patient }) => {
   return (
