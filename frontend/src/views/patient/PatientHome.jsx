@@ -1,28 +1,23 @@
-import Navbar from "./components/Navbar";
-import Exercises from "./components/Exercises";
-import "./styles.css";
-import { useState, useEffect, useCallback } from "react";
-import VoiceAI from "./components/VoiceAI";
-import { db, getCurrentUser } from "../../../firebaseConfig";
-import axios from "axios";
-import Skeleton from "./components/Skeleton";
-import apiUrl from "../../config";
-import { LogOut } from "lucide-react";
+import Navbar from './components/Navbar';
+import Exercises from './components/Exercises';
+import './styles.css';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import VoiceAI from './components/VoiceAI';
+import { db, getCurrentUser } from '../../../firebaseConfig';
+import axios from 'axios';
+import apiUrl from '../../config';
+import { CheckCircle, Clock3, LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PatientHome = () => {
   const navigate = useNavigate();
-  const {patientID, practitionerID} = useParams();
+  const { patientID, practitionerID } = useParams();
   const [patient, setPatient] = useState(null);
-  const [convo, setConvo] = useState({
-    user: null,
-    gpt: null,
-  });
+  const [convo, setConvo] = useState([]);
   const [userInput, setUserInput] = useState('');
-  // const [patientID, setPatientId] = useState('');
-  // const [practitionerID, setPractitionerId] = useState('');
   const [exercises, setExercises] = useState([]);
+  console.log('new line lol', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -30,18 +25,18 @@ const PatientHome = () => {
 
       // Fetch patient details
       const patientRef = db
-        .collection("practitioners")
+        .collection('practitioners')
         .doc(currentUser.uid)
-        .collection("patients")
+        .collection('patients')
         .doc(patientID);
 
       const unsubscribePatient = patientRef.onSnapshot((doc) => {
         if (doc.exists) {
           const patientData = doc.data();
           setPatient(patientData);
-          console.log(patient)
+          console.log(patient);
         } else {
-          console.error("Patient not found");
+          console.error('Patient not found');
         }
       });
 
@@ -59,7 +54,6 @@ const PatientHome = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setConvo((prevConvo) => ({ ...prevConvo, gpt: null }));
     updateUserMessage(userInput);
     const queryParams = new URLSearchParams({
       patient: patientID,
@@ -70,41 +64,45 @@ const PatientHome = () => {
         `${apiUrl}/conversation/send_text_message?${queryParams.toString()}`,
         { message: userInput }
       );
-      console.log(response.data.reply);
-      setConvo((prevConvo) => {
-        if (prevConvo.gpt === null) {
-          return { ...prevConvo, gpt: response.data.reply };
-        }
-        return prevConvo;
-      });
+      updateGptResponse(response.data.reply);
+      setUserInput('');
     } catch (error) {
-      console.error("Error fetching conversation start:", error);
+      console.error('Error fetching conversation start:', error);
     }
-    setUserInput("");
   };
 
   const updateUserMessage = useCallback((newMessage) => {
-    setConvo((prevConvo) => ({ ...prevConvo, user: newMessage }));
+    if (!newMessage) {
+      return;
+    }
+    setConvo((prevConvo) => {
+      const lastMessage = prevConvo[prevConvo.length - 1];
+      if (!lastMessage || lastMessage.type === 'gpt') {
+        return [...prevConvo, { type: 'user', text: newMessage }];
+      }
+      return prevConvo.map((message, index) =>
+        index === prevConvo.length - 1
+          ? { ...message, text: newMessage }
+          : message
+      );
+    });
   }, []);
 
   const updateGptResponse = useCallback((newResponse) => {
-    setConvo((prevConvo) => ({ ...prevConvo, gpt: newResponse }));
+    if (!newResponse) {
+      return;
+    }
+    setConvo((prevConvo) => {
+      const lastMessage = prevConvo[prevConvo.length - 1];
+      if (!lastMessage || lastMessage.type === 'user') {
+        return [...prevConvo, { type: 'gpt', text: newResponse }];
+      }
+      return prevConvo;
+    });
   }, []);
-
-  // useEffect(() => {
-  //   // Set the state variables from the path parameters
-  //   if (params.patientID) {
-  //     setPatientId(params.patientID);
-  //   }
-  //   if (params.practitionerID) {
-  //     setPractitionerId(params.practitionerID);
-  //   }
-  //   console.log(patientID, practitionerID)
-  // }, [params.patientID, params.practitionerID]); 
 
   useEffect(() => {
     const startConversation = async () => {
-      console.log(patientID, practitionerID)
       const queryParams = new URLSearchParams({
         patient: patientID,
         practitioner: practitionerID,
@@ -113,19 +111,14 @@ const PatientHome = () => {
         const response = await axios.get(
           `${apiUrl}/conversation/start?${queryParams.toString()}`
         );
-        setConvo((prevConvo) => {
-          if (prevConvo.gpt === null) {
-            return { ...prevConvo, gpt: response.data.reply };
-          }
-          return prevConvo;
-        });
+        updateGptResponse(response.data.reply);
       } catch (error) {
-        console.error("Error fetching conversation start:", error);
+        console.error('Error fetching conversation start:', error);
       }
 
       try {
         const response = await axios.get(
-          `${apiUrl}/exercise/get_all?${queryParams.toString()}`,
+          `${apiUrl}/exercise/get_all?${queryParams.toString()}`
         );
         console.log(response.data.exercises);
         setExercises(response.data.exercises);
@@ -142,74 +135,97 @@ const PatientHome = () => {
         `${apiUrl}/conversation/end`,
         {},
         {
-          // TODO: what are thooooose
           params: new URLSearchParams({
             patient: patientID,
             practitioner: practitionerID,
           }),
         }
       );
-      navigate("/");
+      navigate('/');
     } catch (error) {
-      console.error("Error ending conversation:", error);
+      console.error('Error ending conversation:', error);
     }
   };
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [convo]);
+
   return (
     <div className="outer-frame text-dark-teal  ">
-      <div className="inner-frame flex flex-col h-full p-6">
-        {/* <Navbar /> */}
+      <div className="inner-frame flex flex-col h-full overflow-hidden">
+        <Navbar patient={patient} />
         <main className="flex-grow p-6 overflow-hidden">
-          <div className="flex h-full gap-12">
-            <div className="w-2/3 flex flex-col justify-between h-full left-column">
-              <header className="flex justify-between items-center">
-                <div>
-                  <h1 className="text-4xl font-medium">Welcome Back</h1>
-                  <div className="text-2xl">
-                  {patient && patient.name ? patient.name : ''}
-                  </div>
-                </div>
-                <button
-                  onClick={handleEndSession}
-                  className="flex items-center gap-2 btn btn-active btn-glass"
-                >
-                  Done for the day?
-                  <LogOut size={18} />
-                </button>
-              </header>
+          <div className="flex h-full">
+            <div className="w-1/4 flex flex-col justify-between gap-6 h-full left-column">
               {/* <Conversation messages={messages} /> */}
-              <div className="flex flex-col gap-4 w-3/4">
-                <p className="text-base">{convo.user}</p>
-                <div className="text-xl font-medium">
-                  {convo.gpt !== null ? convo.gpt : <Skeleton />}
-                </div>
+              <div className="gap-2 flex flex-col max-h-screen overflow-y-scroll scroll-smooth">
+                {convo.map((message, index) => (
+                  <p
+                    key={index}
+                    className={`text-lg border-[1px] p-2 rounded-box text-dark-teal ${
+                      message.type === 'gpt' ? 'font-medium' : 'font-light'
+                    }`}
+                  >
+                    {message.text}
+                  </p>
+                ))}
+                <div ref={messagesEndRef} />
               </div>
               <form className="flex items-center" onSubmit={handleFormSubmit}>
                 <input
                   type="text"
-                  placeholder="You can type here..."
+                  placeholder="You can also type here..."
                   className="input input-bordered w-full max-w-xs mr-2"
                   value={userInput}
                   onChange={handleInputChange}
                 />
-                <button className="btn btn-neutral">Prompt</button>
+                <button className="btn bg-dark-teal text-white">
+                  Prompt
+                </button>
               </form>
             </div>
-            <div className="border-l-[1px] -my-2"></div>
-            <div className="w-1/3 h-full flex flex-col gap-4 justify-center items-center">
-              <h3 className="text-lg ml-3">Exercises</h3>
-              <Exercises exercises={exercises} />
+            <div className="w-2/4 h-full flex flex-col justify-between items-center">
+              <VoiceAI
+                patientID={patientID}
+                practitionerID={practitionerID}
+                updateUserMessage={updateUserMessage}
+                updateGptResponse={updateGptResponse}
+              />
+            </div>
+            <div className="w-1/4 h-full flex flex-col items-center ">
+              {exercises.length > 0 ? (
+                <div className="h-4/5 overflow-x-visible w-full m-auto flex flex-col rounded-box">
+                  <Exercises exercises={exercises} />
+                </div>
+              ) : (
+                <div className="skeleton h-full w-full mb-6"></div>
+              )}
+              <div className="h-1/5 flex flex-col justify-between shadow-[0_0_5px_0_rgba(0,0,0,0.2)] rounded-box w-full p-4">
+                <h3 className="flex items-center justify-between gap-1 text-lg font-medium text-left w-full">
+                  Done for the day?
+                  <button
+                    className="text-light-teal flex gap-2 items-center"
+                    onClick={handleEndSession}
+                  >
+                    <LogOut size={20} />
+                  </button>
+                </h3>
+                <div>Your progress for today</div>
+                <div className="flex items-center text-base gap-4">
+                  <progress className="progress w-56" value="75" max="100" />
+                  <p className="mb-1 text-sm">75%</p>
+                </div>
+              </div>
             </div>
           </div>
         </main>
-        <div className="relative">
-          <VoiceAI
-            patientID={patientID}
-            practitionerID={practitionerID}
-            updateUserMessage={updateUserMessage}
-            updateGptResponse={updateGptResponse}
-          />
-        </div>
         {/* TODO: finish button that calls conversation/end */}
       </div>
     </div>
