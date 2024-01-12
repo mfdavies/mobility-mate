@@ -1,14 +1,15 @@
 import Navbar from './components/Navbar';
 import Exercises from './components/Exercises';
 import './styles.css';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import VoiceAI from './components/VoiceAI';
 import { db, getCurrentUser } from '../../../firebaseConfig';
 import axios from 'axios';
 import apiUrl from '../../config';
-import { CheckCircle, Clock3, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import './styles.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import Conversation from './components/Conversation';
 
 const PatientHome = () => {
   const navigate = useNavigate();
@@ -17,7 +18,8 @@ const PatientHome = () => {
   const [convo, setConvo] = useState([]);
   const [userInput, setUserInput] = useState('');
   const [exercises, setExercises] = useState([]);
-  console.log('new line lol', convo);
+  const [isRecording, setIsRecording] = useState(false);
+  console.log('convo', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -147,16 +149,6 @@ const PatientHome = () => {
     }
   };
 
-  const messagesEndRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [convo]);
-
   return (
     <div className="outer-frame text-dark-teal  ">
       <div className="inner-frame flex flex-col h-full overflow-hidden">
@@ -164,20 +156,11 @@ const PatientHome = () => {
         <main className="flex-grow p-6 overflow-hidden">
           <div className="flex h-full">
             <div className="w-1/4 flex flex-col justify-between gap-6 h-full left-column">
-              {/* <Conversation messages={messages} /> */}
-              <div className="gap-2 flex flex-col max-h-screen overflow-y-scroll scroll-smooth">
-                {convo.map((message, index) => (
-                  <p
-                    key={index}
-                    className={`text-lg border-[1px] p-2 rounded-box text-dark-teal ${
-                      message.type === 'gpt' ? 'font-medium' : 'font-light'
-                    }`}
-                  >
-                    {message.text}
-                  </p>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
+              <Conversation
+                convo={convo}
+                isRecording={isRecording}
+                setIsRecording={setIsRecording}
+              />
               <form className="flex items-center" onSubmit={handleFormSubmit}>
                 <input
                   type="text"
@@ -186,9 +169,7 @@ const PatientHome = () => {
                   value={userInput}
                   onChange={handleInputChange}
                 />
-                <button className="btn bg-dark-teal text-white">
-                  Prompt
-                </button>
+                <button className="btn bg-dark-teal text-white">Prompt</button>
               </form>
             </div>
             <div className="w-2/4 h-full flex flex-col justify-between items-center">
@@ -197,6 +178,8 @@ const PatientHome = () => {
                 practitionerID={practitionerID}
                 updateUserMessage={updateUserMessage}
                 updateGptResponse={updateGptResponse}
+                isRecording={isRecording}
+                setIsRecording={setIsRecording}
               />
             </div>
             <div className="w-1/4 h-full flex flex-col items-center ">

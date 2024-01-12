@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import apiUrl from '../../../config';
 import gsap from 'gsap';
-import { Mic, AudioLines } from 'lucide-react';
+import { Mic } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 
 const VoiceAI = ({
@@ -10,9 +10,10 @@ const VoiceAI = ({
   practitionerID,
   updateUserMessage,
   updateGptResponse,
+  isRecording,
+  setIsRecording,
 }) => {
   const sphere = useRef();
-  const [isRecording, setIsRecording] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [speechRecognition, setSpeechRecognition] = useState(null);
