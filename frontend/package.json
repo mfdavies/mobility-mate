@@ -20,6 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
+    "socket.io-client": "^4.7.3",
     "typewriter-effect": "^2.21.0",
     "uuid": "^9.0.1"
   },

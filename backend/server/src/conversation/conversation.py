@@ -1,7 +1,10 @@
 import whisper
 import datetime
 import os
+from extensions import socketio
 from openai import OpenAI
+from io import BytesIO
+from pathlib import Path
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 model = whisper.load_model("base")
@@ -38,15 +41,35 @@ class Conversation:
     def generate_reply(self, text):
         self.history.append({"role": "user", "content": text})
         self.conversation_ref.update({"history": self.history})
-        response = self.request_reply()
+        text_response = self.request_reply()
+
+        # Generate the speech file
+        speech_file_path = Path(__file__).parent / "speech.mp3"
+        audio_response = client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=text_response.choices[0].message.content.strip()
+        )
+        audio_response.stream_to_file(speech_file_path)
+
+        # Read and stream the file in chunks
+        with open(speech_file_path, 'rb') as audio_file:
+            while True:
+                chunk = audio_file.read(1024)  # Read in chunks of 1KB
+                if not chunk:
+                    break
+                socketio.emit('audio_chunk', {'data': chunk})
+
+        # Clean up the temporary file if needed
+
         self.history.append(
             {
                 "role": "assistant",
-                "content": response.choices[0].message.content.strip(),
+                "content": text_response.choices[0].message.content.strip(),
             }
         )
         self.conversation_ref.update({"history": self.history})
-        return response.choices[0].message.content.strip()
+        return text_response.choices[0].message.content.strip()
 
     def generate_greeting(self):
         self.history.append({"role": "system", "content": self.prompt})

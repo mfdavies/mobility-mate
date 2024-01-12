@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import apiUrl from '../../../config';
 import gsap from 'gsap';
-import { Mic, AudioLines } from 'lucide-react';
+import { Mic } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
+import { io } from 'socket.io-client';
 
 const VoiceAI = ({
   patientID,
@@ -17,6 +18,62 @@ const VoiceAI = ({
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [speechRecognition, setSpeechRecognition] = useState(null);
   const [isModelLoaded, setIsModelLoaded] = useState(false);
+
+  const audioChunksRef = useRef([]);
+  const audioContextRef = useRef(null);
+
+  useEffect(() => {
+    const socket = io(apiUrl);
+
+    socket.on('audio_chunk', (data) => {
+      // Log each received chunk
+      console.log('Received audio chunk', data);
+      audioChunksRef.current.push(data.data);
+    });
+
+    socket.on('audio_end', () => {
+      console.log('All audio chunks received');
+
+      // When all chunks have been received, process and play the audio
+      if (audioChunksRef.current.length > 0) {
+        console.log('Processing audio chunks');
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: 'audio/mpeg',
+        });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        console.log('Audio URL:', audioUrl);
+
+        // Create audio context and source if not already created
+        if (!audioContextRef.current) {
+          audioContextRef.current = new (window.AudioContext ||
+            window.webkitAudioContext)();
+        }
+
+        const audioElement = new Audio(audioUrl);
+        const track =
+          audioContextRef.current.createMediaElementSource(audioElement);
+        track.connect(audioContextRef.current.destination);
+
+        audioElement
+          .play()
+          .then(() => {
+            console.log('Audio playback started');
+          })
+          .catch((e) => {
+            console.error('Audio playback error:', e);
+          });
+      } else {
+        console.log('No audio chunks to play');
+      }
+
+      // Reset the chunks array for next time
+      audioChunksRef.current = [];
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const SpeechRecognition =
@@ -146,7 +203,8 @@ const VoiceAI = ({
         )}
         {isRecording && (
           <>
-            <span className="loading loading-ring loading-sm"></span>Listening...
+            <span className="loading loading-ring loading-sm"></span>
+            Listening...
           </>
         )}
       </button>

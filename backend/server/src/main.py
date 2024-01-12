@@ -7,6 +7,7 @@ import time
 import firebase_admin
 from firebase_admin import credentials
 from flask_cors import CORS
+from extensions import socketio
 
 load_dotenv()
 app = Flask(__name__)
@@ -41,6 +42,7 @@ app.register_blueprint(conversation_blueprint, url_prefix="/conversation")
 app.register_blueprint(exercise_blueprint, url_prefix="/exercise")
 
 CORS(app)
+socketio.init_app(app)
 
 # Load Flask-Mail config from .env
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
@@ -89,4 +91,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+    socketio.run(app, debug=True, port=os.getenv("PORT", default=5000))
+    # socketio.run(app)
