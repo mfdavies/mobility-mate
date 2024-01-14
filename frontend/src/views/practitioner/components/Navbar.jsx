@@ -12,7 +12,6 @@ const Navbar = () => {
         .signOut()
         .then(function () {
           navigate("/");
-          console.log("Worked");
         })
         .catch(function (error) {
           console.error("Error signing out:", error);

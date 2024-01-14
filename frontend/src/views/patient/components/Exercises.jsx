@@ -6,7 +6,7 @@ const ExerciseSummary = ({ image, title, description }) => {
     <div className="flex flex-col gap-2">
       <div className="h-44 w-full">
         <img
-          className="h-full w-full object-contain border-2 rounded-box "
+          className="h-full w-full object-contain border-[1px] rounded-box "
           src={image}
           alt="Exercise"
         />
@@ -24,7 +24,7 @@ const ExerciseView = ({ image, steps }) => {
     <div className="flex flex-col gap-2">
       <div className="h-44 w-full">
         <img
-          className="h-full w-full object-contain border-2 rounded-box "
+          className="h-full w-full object-contain border-[1px] rounded-box "
           src={image}
           alt="Exercise"
         />
