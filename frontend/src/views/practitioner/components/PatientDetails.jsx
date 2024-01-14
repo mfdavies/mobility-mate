@@ -30,7 +30,6 @@ const PatientDetails = ({ patientID }) => {
           }
           const conversationsRef = doc.ref.collection("conversations");
           conversationsRef.onSnapshot((snapshot) => {
-            console.log(snapshot.docs);
             const sortedConvos = snapshot.docs
               .map((doc) => ({
                 date: doc.data().date.toDate(),

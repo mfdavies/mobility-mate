@@ -100,7 +100,6 @@ const VoiceAI = ({
 
   const triggerStart = () => {
     startRecording();
-    console.log(sphere.current.scale);
     gsap.to(sphere.current.scale, {
       duration: 3,
       x: 1.3,

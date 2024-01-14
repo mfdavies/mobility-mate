@@ -19,7 +19,6 @@ const PatientHome = () => {
   const [userInput, setUserInput] = useState('');
   const [exercises, setExercises] = useState([]);
   const [isRecording, setIsRecording] = useState(false);
-  console.log('convo', convo);
 
   useEffect(() => {
     const fetchPatientDetails = async () => {
@@ -36,7 +35,6 @@ const PatientHome = () => {
         if (doc.exists) {
           const patientData = doc.data();
           setPatient(patientData);
-          console.log(patient);
         } else {
           console.error('Patient not found');
         }
@@ -122,7 +120,6 @@ const PatientHome = () => {
         const response = await axios.get(
           `${apiUrl}/exercise/get_all?${queryParams.toString()}`
         );
-        console.log(response.data.exercises);
         setExercises(response.data.exercises);
       } catch (error) {
         console.error('Error fetching conversation start:', error);
