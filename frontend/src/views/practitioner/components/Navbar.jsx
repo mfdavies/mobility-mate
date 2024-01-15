@@ -24,7 +24,7 @@ const Navbar = ({ activeView, onViewChange }) => {
   const isExercisesActive = activeView === "exercises";
 
   return (
-    <nav className="p-4 flex items-center gap-4 bg-dark-teal">
+    <nav className="px-4 py-2 flex items-center gap-4 bg-dark-teal">
       <button className="btn btn-ghost p-0 text-xl text-white">
         <img className="h-3/5" src={logo} alt="" />
         MobilityMate
