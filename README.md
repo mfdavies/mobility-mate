@@ -1,3 +1,6 @@
+# NOTE: This repository is deprecated. 
+## Please vist: https://github.com/mfdavies/mobility-mate-backend and https://github.com/mfdavies/mobility-mate-frontend for updates.
+
 # MobilityMate
 
 A platform for saving time for physiotherapists at the office and helping senior patients track their exercise routine progress.
